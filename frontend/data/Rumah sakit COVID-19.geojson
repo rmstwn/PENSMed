@@ -1,0 +1,27 @@
+{
+"type": "FeatureCollection",
+                                                                                
+"features": [
+{ "type": "Feature", "id": 1, "properties": { "NAME": "RSUD dr. Soetomo", "TEL": "(031) 5501078", "URL": "http:\/\/rsudrsoetomo.jatimprov.go.id/", "ADDRESS1": "Jl. Prof. DR. Mustopo No.6-8, Airlangga, Kec. Gubeng, Kota SBY, Jawa Timur 60286", "ADDRES2": null, "CITY": "Surabaya", "ZIP": 60286 }, "geometry": { "type": "Point", "coordinates": [ 112.758475, -7.268032 ] } }
+,
+{ "type": "Feature", "id": 2, "properties": { "NAME": "RSUD dr. Soedono Madiun", "TEL": "(0351) 4546578", "URL": "http:\/\/rssoedono.jatimprov.go.id/", "ADDRESS1": "Jl. Dr. Sutomo No.59, Kartoharjo, Kec. Kartoharjo, Kota Madiun, Jawa Timur 63117", "ADDRES2": null, "CITY": "Madiun", "ZIP": 63117 }, "geometry": { "type": "Point", "coordinates": [ 111.523990, -7.626309 ] } }
+,
+{ "type": "Feature", "id": 3, "properties": { "NAME": "RSUD dr. Saiful Anwar", "TEL": "(0341) 362101", "URL": "http:\/\/rsusaifulanwarjatimprov.web.id/", "ADDRESS1": "Jl. Jaksa Agung Suprapto No.2, Klojen, Kec. Klojen, Kota Malang, Jawa Timur 65111", "ADDRES2": null, "CITY": "Malang", "ZIP": 65111 }, "geometry": { "type": "Point", "coordinates": [ 112.631543, -7.972568 ] } }
+,
+{ "type": "Feature", "id": 4, "properties": { "NAME": "RSUD dr. Soebandi Jember", "TEL": "(0331) 487441", "URL": "http:\/\/rsddrsoebandi.id/", "ADDRESS1": "Jl. DR. Soebandi No.124, Cangkring, Patrang, Kec. Patrang, Kabupaten Jember, Jawa Timur 68111", "ADDRES2": null, "CITY": "Jember", "ZIP": 68111 }, "geometry": { "type": "Point", "coordinates": [ 113.715009, -8.151910 ] } }
+,
+{ "type": "Feature", "id": 5, "properties": { "NAME": "RSUD Kabupaten Kediri Pare", "TEL": "(0354) 391718", "URL": "http:\/\/rsud.kedirikab.go.id/", "ADDRESS1": "Jl. Pahlawan Kusuma Bangsa No.1, Cangkring, Pelem, Pare, Kediri, East Java 64213", "ADDRES2": null, "CITY": "Kediri", "ZIP": 64213 }, "geometry": { "type": "Point", "coordinates": [ 112.176110, -7.759778 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "NAME": "RSUD dr. R. Koesma Tuban", "TEL": "(0356) 321010", "URL": "http:\/\/rsudkoesma.id/", "ADDRESS1": "Jl. Dr. Wahidin Sudirohusodo No.800, Sidorejo, Kec. Tuban, Kabupaten Tuban, Jawa Timur 62315", "ADDRES2": null, "CITY": "Tuban", "ZIP": 62315 }, "geometry": { "type": "Point", "coordinates": [ 112.046515, -6.898767 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "NAME": "RSUD Blambangan", "TEL": "(0333) 421118", "URL": "http:\/\/www.banyuwangikab.go.id//", "ADDRESS1": "Jl. Letkol Istiqlah No.49, Singonegaran, Kec. Banyuwangi, Kabupaten Banyuwangi, Jawa Timur 68415", "ADDRES2": null, "CITY": "Banyuwangi", "ZIP": 68415 }, "geometry": { "type": "Point", "coordinates": [ 114.366015, -8.208367 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "NAME": "RSUD Dr. R. Sosodoro Djatikoesoemo", "TEL": "(0353) 3412133", "URL": "http:\/\/rssosodoro.com/", "ADDRESS1": "Jl. Veteran No.36, Jambean, Sukorejo, Kec. Bojonegoro, Kabupaten Bojonegoro, Jawa Timur 62115", "ADDRES2": null, "CITY": "Bojonegoro", "ZIP": 68415 }, "geometry": { "type": "Point", "coordinates": [ 111.899629, -7.159541 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "NAME": "RSUD Dr. Iskak Tulungagung", "TEL": "(0355) 322609", "URL": "http:\/\/rsudtulungagung.com/", "ADDRESS1": "Jl. Dr. Wahidin Sudiro Husodo, Kedung Taman, Kedungwaru, Kec. Kedungwaru, Kabupaten Tulungagung, Jawa Timur 66223", "ADDRES2": null, "CITY": "Tulungagung", "ZIP": 66223 }, "geometry": { "type": "Point", "coordinates": [ 111.918088, -8.054928 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "NAME": "RSUD Sidoarjo", "TEL": "(031) 8961649", "URL": "http:\/\/rsd.sidoarjokab.go.id/", "ADDRESS1": "Jl. Mojopahit No.667, Sidowayah, Celep, Kec. Sidoarjo, Kabupaten Sidoarjo, Jawa Timur 61215", "ADDRES2": null, "CITY": "Sidoarjo", "ZIP": 61215 }, "geometry": { "type": "Point", "coordinates": [ 112.716369, -7.465451 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "NAME": "RS Universitas Airlangga", "TEL": "(031) 5961389", "URL": "http:\/\/rski.unair.ac.id/", "ADDRESS1": "Kampus C Unair, Jl. Mulyorejo, Mulyorejo, Kec. Mulyorejo, Kota SBY, Jawa Timur 60115", "ADDRES2": null, "CITY": "Surabaya", "ZIP": 60115 }, "geometry": { "type": "Point", "coordinates": [ 112.786133, -7.270206 ] } }
+]
+}
