@@ -4,7 +4,12 @@ WORKDIR /home/
 
 COPY package.json .
 
-RUN npm i
+RUN npm i \
+    && apk update \
+    && apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/Asia/Jakarta /etc/localtime \
+    && echo "Asia/Jakarta" >  /etc/timezone \
+    && apk del tzdata
 
 ENV NODE_ENV production
 
