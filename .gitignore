@@ -1,0 +1,8 @@
+#file
+**/.env
+**/package-lock.json
+
+#folder
+**/.cache/
+**/.vscode/
+**/node_modules/
