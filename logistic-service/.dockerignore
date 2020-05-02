@@ -1,0 +1,10 @@
+.git/
+.cache/
+.vscode/
+node_modules/
+
+*.md
+.gitignore
+.env-example
+package-lock.json
+Containerfile
