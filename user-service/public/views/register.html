@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+</head>
+<body>
+    <form method="post">
+        <center><h3>Register as Donor</h3></center>
+            <input type="email" id="email" name="email" style="display:block;margin: 0 auto" placeholder="email">
+            <input type="password" id="password" name="password" style="display:block;margin: 0 auto" placeholder="password">
+            <input type="password" id="confirm_password" name="confirm_password" style="display:block;margin: 0 auto" placeholder="confirm password">
+            <input type="text" id="name" name="name" style="display:block;margin: 0 auto" placeholder="name">
+            <input type="text" id="perusahaan" name="perusahaan" style="display:block;margin: 0 auto" placeholder="company">
+            <br>
+            <center><button id="submit-btn">Register</button></center>
+    </form>
+    <script>
+        document.getElementById("submit-btn").addEventListener("click", function(event){
+            event.preventDefault()
+            fetch('http://localhost:3000/register?category=hospital', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value,
+                    confirm_password: document.getElementById('confirm_password').value,
+                    name: document.getElementById('name').value,
+                    perusahaan: document.getElementById('perusahaan').value
+                })
+            })
+            .then(res => {
+                console.log(res.status)
+                res.text().then(d => console.log(d))
+            })
+        });
+    </script>
+</body>
+</html>
