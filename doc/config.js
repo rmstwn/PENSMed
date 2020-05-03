@@ -1,12 +1,12 @@
 module.exports = {
     servers: [
         {
-          url: 'http://localhost:3000/',
-          description: 'Local server'
+          url: 'https://pensmed.com:3333',
+          description: 'Logistic Service'
         },
         {
-          url: 'http://pensmed.com/',
-          description: 'Development server'
+          url: 'https://pensmed.com:3000',
+          description: 'User Service'
         }
       ],
       security: [
