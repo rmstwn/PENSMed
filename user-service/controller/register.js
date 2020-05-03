@@ -140,7 +140,7 @@ and minimum 6 characters')
             model = {
                 email: email,
                 password: password,
-                name: name,
+                hospital: name,
                 kode: kode
             }
             await hospital_schema.create(model)
