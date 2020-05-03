@@ -257,7 +257,7 @@ module.exports = {
 			tags: ['User Service'],
 			summary: 'Update hospital data',
 			description: 'Update hospital data',
-			operationId: 'loginUser',
+			operationId: 'getMaps',
 			responses: {
 				'200': {
 					description: 'Update success'
