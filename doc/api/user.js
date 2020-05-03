@@ -251,5 +251,24 @@ module.exports = {
 				}
 			}
 		}
-	}
+	},
+	'api/v1/map/hospital': {
+		get: {
+			tags: ['User Service'],
+			summary: 'Update hospital data',
+			description: 'Update hospital data',
+			operationId: 'loginUser',
+			responses: {
+				'200': {
+					description: 'Update success'
+				},
+				'400': {
+					description: 'Invalid Value'
+				},
+				'500': {
+					description: 'Something wrong with server'
+				}
+			}
+		}
+	}	
 }
