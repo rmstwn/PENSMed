@@ -133,7 +133,7 @@ module.exports = {
 			}
 		},
 	},
-	'api/v1/data/user': {
+	'/api/v1/data/user': {
 		get: {
 			tags: ['User Service'],
 			summary: 'Get all user data',
@@ -157,7 +157,7 @@ module.exports = {
 			}
 		}
 	},
-	'api/v1/update/data/user?category=donor': {
+	'/api/v1/update/data/user?category=donor': {
 		put: {
 			tags: ['User Service'],
 			summary: 'Update donor data',
@@ -194,7 +194,7 @@ module.exports = {
 			}
 		}
 	},	
-	'api/v1/update/data/user?category=hospital': {
+	'/api/v1/update/data/user?category=hospital': {
 		put: {
 			tags: ['User Service'],
 			summary: 'Update hospital data',
@@ -252,7 +252,7 @@ module.exports = {
 			}
 		}
 	},
-	'api/v1/map/hospital': {
+	'/api/v1/map/hospital': {
 		get: {
 			tags: ['User Service'],
 			summary: 'Update hospital data',
