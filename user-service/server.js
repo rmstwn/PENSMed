@@ -49,5 +49,14 @@ app.use(compression())
 // Define service router
 router(app)
 
+// Use SSL certificate
+const https = require('https'),
+      fs = require('fs'),
+      credentials = {
+          key: fs.readFileSync(process.env.SSL_KEY),
+          cert: fs.readFileSync(process.env.SSL_CERTIFICATE)
+      },
+      httpsServer = https.createServer(credentials, app)
+
 // Start server
-app.listen(port, () => console.log(`Listening to ${port}`))
+httpsServer.listen(port, () => console.log(`Listening to ${port}`))
