@@ -35,10 +35,10 @@ exports.list = async (req,res) => {
 
 exports.update_data = async(req,res) => {
 	let {logged_in} = req.cookies,
-		  {session} = req.signedCookies,
-		  {category} = req.query
+		{session} = req.signedCookies,
+		{category} = req.query
 
-	if (logged_in != 'yes' || logged_in == undefined || session == undefined || !session) {
+	if ((logged_in != 'yes' || logged_in == undefined) && (session == undefined || !session)) {
 		res.sendStatus(401)
 		return
 	}
@@ -87,14 +87,16 @@ exports.update_data = async(req,res) => {
 
 			let status = await hospital.updateOne({session: session},{
 					$set: {
-						hospital: hospital,
-						contact: contact,
-						city: city,
-						kode: kode,
-						url: url,
-						"location.address": address,
-						"location.zip" : zip,
-						"location.coordinates": [coord1,coord2]
+						"features.$.properties": {
+							NAME: hospital,
+							TEL: contact,
+							CITY: city,
+							kode: kode,
+							URL: url,
+							ADDRESS1: address,
+							ZIP: zip,
+							"geometry.coordinates": [coord1,coord2]
+						}
 					}
 				})
 			
