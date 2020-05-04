@@ -3,7 +3,8 @@ const register = require('../controller/register'),
       login = require('../controller/login'),
       user = require('../controller/user'),
       hospital = require('../controller/hospital'),
-      stock = require('../controller/hospital_data')
+      stock = require('../controller/hospital_data'),
+      map = require('../controller/map')
 
 // Export code inside curly brace
 module.exports = app => {
@@ -34,6 +35,9 @@ module.exports = app => {
 
     app.route('/api/v1/data/hospital')
        .get(hospital.list_all)
+
+    app.route('/api/v1/map/hospital')
+       .get(map.get_data)
 
     app.route('/api/v1/data/hospital/:name')
        .get(hospital.hospital_data)
