@@ -1,4 +1,5 @@
-const {Schema, model} = require('mongoose')
+const {Schema, model} = require('mongoose'),
+      {localTime} = require('../lib')
 
 const Hospital = new Schema({
     hospital: {
