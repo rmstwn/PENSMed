@@ -276,8 +276,9 @@ var hospitals = L.geoJson(null, {
       var coverallmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue29' value='" + feature.properties.coverallmedis_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
       var coverallmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue30' value='" + feature.properties.coverallmedis_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
       var coverallmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue31' value='" + feature.properties.coverallmedis_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var coverallmedis_xxl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue37' value='" + feature.properties.coverallmedis_xxl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
 
-      var total_coverallmedis = feature.properties.coverallmedis_s + feature.properties.coverallmedis_m + feature.properties.coverallmedis_l + feature.properties.coverallmedis_xl
+      var total_coverallmedis = feature.properties.coverallmedis_s + feature.properties.coverallmedis_m + feature.properties.coverallmedis_l + feature.properties.coverallmedis_xl + feature.properties.coverallmedis_xxl
       var coverallmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
 
       //Heavy Duty Apron
@@ -364,6 +365,7 @@ var hospitals = L.geoJson(null, {
           $("#feature-info-coverallmedis-m").html(coverallmedis_m);
           $("#feature-info-coverallmedis-l").html(coverallmedis_l);
           $("#feature-info-coverallmedis-xl").html(coverallmedis_xl);
+          $("#feature-info-coverallmedis-xxl").html(coverallmedis_xxl);
           $("#feature-info-coverallmedis-total").html(coverallmedis_total);
 
           //Heavy Duty Apron
@@ -812,6 +814,9 @@ function editvalue() {
     document.getElementById("editvalue36").readOnly = false;
     document.getElementById("editvalue36").style.border = "1px solid yellow";
 
+    document.getElementById("editvalue37").readOnly = false;
+    document.getElementById("editvalue37").style.border = "1px solid yellow";
+
     document.getElementById("Edit-btn").innerText = "Simpan Nilai"
   }
 
@@ -923,6 +928,9 @@ function editvalue() {
 
     document.getElementById("editvalue36").readOnly = true;
     document.getElementById("editvalue36").style.border = "none";
+
+    document.getElementById("editvalue37").readOnly = true;
+    document.getElementById("editvalue37").style.border = "none";
 
     document.getElementById("Edit-btn").innerText = "Edit Nilai"
   }
