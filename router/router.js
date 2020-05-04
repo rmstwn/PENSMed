@@ -4,28 +4,24 @@ const register = require('../controller/register'),
       user = require('../controller/user'),
       hospital = require('../controller/hospital'),
       stock = require('../controller/hospital_data'),
-      map = require('../controller/map')
+      map = require('../controller/map'),
+      page = require('../controller/page')
 
 // Export code inside curly brace
 module.exports = app => {
     app.route('/')
-       .get((req,res) => {
-         if (req.cookies.logged_in == undefined || req.cookies.logged_in != 'yes')
-            res.cookie('logged_in','no',{maxAge:360000})
-         res.send('Welcome to Index Page!')
-         }
-       )
+       .get(page.index_page)
        
     app.route('/register')
-       .get(register.register_page)
+       .get(page.register_page)
        .post(register.register_data)
 
     app.route('/login')
-       .get(login.login_page)
+       .get(page.login_page)
        .post(login.authentication)
 
     app.route('/edit')
-       .get(user.edit_page)   
+       .get(page.edit_page)   
 
     app.route('/confirm/:token')
        .get(register.email_confirm)
