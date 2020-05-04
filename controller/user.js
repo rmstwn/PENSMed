@@ -1,9 +1,14 @@
 const {model} = require('mongoose'),
 	  {request_check, hashing} = require('../lib'),
+	  path = require('path'),
       hospital_schema = require('../model/hospital'),
       donor_schema = require('../model/donor'),
       hospital = model("hospital"),
       donor = model("donor")
+      
+exports.edit_page = (req,res) => {
+    res.sendFile(path.resolve(__dirname, '../public/views/edit.html'))
+}
 
 exports.list = async (req,res) => {
 	const {list} = req.query
@@ -38,7 +43,7 @@ exports.update_data = async(req,res) => {
 		{session} = req.signedCookies,
 		{category} = req.query
 
-	if ((logged_in != 'yes' || logged_in == undefined) && (session == undefined || !session)) {
+	if (logged_in != 'yes' || logged_in == undefined || session == undefined || !session) {
 		res.sendStatus(401)
 		return
 	}
@@ -64,7 +69,7 @@ exports.update_data = async(req,res) => {
 			}
 		} else if (category == 'hospital') {
 			const {
-					hospital,
+					hospital_name,
 					contact,
 					address,
 					coord1,
@@ -75,7 +80,7 @@ exports.update_data = async(req,res) => {
 					zip
 				} = req.body
 
-			await request_check(hospital, 'hospital')
+			await request_check(hospital_name, 'hospital_name')
 			await request_check(contact, 'contact')
 			await request_check(address, 'address')
 			await request_check(coord1, 'coord1')
@@ -85,17 +90,17 @@ exports.update_data = async(req,res) => {
 			await request_check(url, 'url')
 			await request_check(zip, 'zip')
 
-			let status = await hospital.updateOne({session: session},{
+			let status = await hospital.updateOne({features: {$elemMatch: {"properties.session": session}}},{
 					$set: {
+                        "geometry.coordinates": [coord1,coord2],
 						"features.$.properties": {
-							NAME: hospital,
+							NAME: hospital_name,
 							TEL: contact,
 							CITY: city,
 							kode: kode,
 							URL: url,
 							ADDRESS1: address,
 							ZIP: zip,
-							"geometry.coordinates": [coord1,coord2]
 						}
 					}
 				})
