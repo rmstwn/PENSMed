@@ -24,6 +24,9 @@ module.exports = app => {
        .get(login.login_page)
        .post(login.authentication)
 
+    app.route('/edit')
+       .get(user.edit_page)   
+
     app.route('/confirm/:token')
        .get(register.email_confirm)
 
