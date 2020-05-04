@@ -1,70 +1,70 @@
 var map, featureList, boroughSearch = [], hospitalSearch = [];
 
-$(window).resize(function() {
+$(window).resize(function () {
   sizeLayerControl();
 });
 
-$(document).on("click", ".feature-row", function(e) {
+$(document).on("click", ".feature-row", function (e) {
   $(document).off("mouseout", ".feature-row", clearHighlight);
   sidebarClick(parseInt($(this).attr("id"), 10));
 });
 
-if ( !("ontouchstart" in window) ) {
-  $(document).on("mouseover", ".feature-row", function(e) {
+if (!("ontouchstart" in window)) {
+  $(document).on("mouseover", ".feature-row", function (e) {
     highlight.clearLayers().addLayer(L.circleMarker([$(this).attr("lat"), $(this).attr("lng")], highlightStyle));
   });
 }
 
 $(document).on("mouseout", ".feature-row", clearHighlight);
 
-$("#full-extent-btn").click(function() {
+$("#full-extent-btn").click(function () {
   map.fitBounds(boroughs.getBounds());
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#legend-btn").click(function() {
+$("#legend-btn").click(function () {
   $("#legendModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#login-btn").click(function() {
+$("#login-btn").click(function () {
   $("#loginModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#register-donor-btn").click(function() {
+$("#register-donor-btn").click(function () {
   $("#registerHospitalModal").modal("hide");
   $("#registerDonorModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#register-hospital-btn").click(function() {
+$("#register-hospital-btn").click(function () {
   $("#registerDonorModal").modal("hide");
   $("#registerHospitalModal").modal("show");
   $(".navbar-collapse.in").collapse("hide");
   return false;
 });
 
-$("#list-btn").click(function() {
+$("#list-btn").click(function () {
   animateSidebar();
   return false;
 });
 
-$("#nav-btn").click(function() {
+$("#nav-btn").click(function () {
   $(".navbar-collapse").collapse("toggle");
   return false;
 });
 
-$("#sidebar-toggle-btn").click(function() {
+$("#sidebar-toggle-btn").click(function () {
   animateSidebar();
   return false;
 });
 
-$("#sidebar-hide-btn").click(function() {
+$("#sidebar-hide-btn").click(function () {
   animateSidebar();
   return false;
 });
@@ -72,7 +72,7 @@ $("#sidebar-hide-btn").click(function() {
 function animateSidebar() {
   $("#sidebar").animate({
     width: "toggle"
-  }, 350, function() {
+  }, 350, function () {
     map.invalidateSize();
   });
 }
@@ -195,55 +195,191 @@ var hospitals = L.geoJson(null, {
     $('#selectHospital').append($('<option></option>').attr('value', feature.id).text(layer.feature.properties.NAME));
     if (feature.properties) {
       var content = "<table class='table table-striped table-bordered table-condensed'>" + "</td></tr>" + "<tr><th>No. Telp.</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Alamat</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
-      
-      var pasien_positif = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + feature.properties.pasien_positif  + "</div>"
-      var pasien_pdp = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + feature.properties.pasien_pdp + "</div>"
-      
+
+      var last_update = "<h5 style='text-align: right;'>Last Update : <span style='color: red;'>" + feature.properties.update_time + "</span></h5>"
+
+      // Pasien
+      var pasien_positif = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue1' value='" + feature.properties.pasien_positif + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var pasien_pdp = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue2' value='" + feature.properties.pasien_pdp + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
       var total = feature.properties.pasien_positif + feature.properties.pasien_pdp
       var pasien_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total + "</div>"
-      
-      var bed_rawatinap_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" +  feature.properties.bed_rawatinap_tersedia + "</div>"
-      var bed_rawatinap_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" +  feature.properties.bed_rawatinap_terpakai + "</div>"
-      
-      var bed_icu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" +  feature.properties.bed_icu_tersedia + "</div>"
-      var bed_icu_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" +  feature.properties.bed_icu_terpakai + "</div>"
+
+      // Kasur
+      var bed_rawatinap_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue3' value='" + feature.properties.bed_rawatinap_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var bed_rawatinap_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue4' value='" + feature.properties.bed_rawatinap_terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var bed_icu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue5' value='" + feature.properties.bed_icu_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var bed_icu_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue6' value='" + feature.properties.bed_icu_terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
 
       var total_rawatinap = feature.properties.bed_rawatinap_tersedia + feature.properties.bed_rawatinap_terpakai
       var total_icu = feature.properties.bed_icu_tersedia + feature.properties.bed_icu_terpakai
-      var bed_total_rawatinap = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  total_rawatinap + "</div>"
-      var bed_total_icu = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" +  total_icu+ "</div>"
+      var bed_total_rawatinap = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_rawatinap + "</div>"
+      var bed_total_icu = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_icu + "</div>"
 
-      var staff_dokter_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_dokter_ada + "</div>"
-      var staff_dokter_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_dokter_pergantianshift + "</div>"
-      
-      var staff_perawat_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_perawat_ada + "</div>"
-      var staff_perawat_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_perawat_pergantianshift + "</div>"
+      // Staff
+      var staff_dokter_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue7' value='" + feature.properties.staff_dokter_ada + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var staff_dokter_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue8' value='" + feature.properties.staff_dokter_pergantianshift + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var staff_perawat_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue9' value='" + feature.properties.staff_perawat_ada + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var staff_perawat_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue10' value='" + feature.properties.staff_perawat_pergantianshift + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
 
       var total_dokter = feature.properties.staff_dokter_ada + feature.properties.staff_dokter_pergantianshift
       var total_perawat = feature.properties.staff_perawat_ada + feature.properties.staff_perawat_pergantianshift
-      var staff_total_dokter = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  total_dokter + "</div>"
-      var staff_total_perawat = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  total_perawat + "</div>"
+      var staff_total_dokter = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_dokter + "</div>"
+      var staff_total_perawat = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_perawat + "</div>"
+
+      //Sarung Tangan Pemeriksaan
+      var sarungtangan_periksa_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue11' value='" + feature.properties.sarungtangan_periksa_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var sarungtangan_periksa_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue12' value='" + feature.properties.sarungtangan_periksa_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var sarungtangan_periksa_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue13' value='" + feature.properties.sarungtangan_periksa_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var sarungtangan_periksa_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue14' value='" + feature.properties.sarungtangan_periksa_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var total_sarungtangan_periksa = feature.properties.sarungtangan_periksa_s + feature.properties.sarungtangan_periksa_m + feature.properties.sarungtangan_periksa_l + feature.properties.sarungtangan_periksa_xl
+      var sarungtangan_periksa_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_periksa + "</div>"
+
+      //Sarung Tangan Bedah
+      var sarungtangan_bedah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue15' value='" + feature.properties.sarungtangan_bedah_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var sarungtangan_bedah_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue16' value='" + feature.properties.sarungtangan_bedah_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var sarungtangan_bedah_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue17' value='" + feature.properties.sarungtangan_bedah_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var sarungtangan_bedah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue18' value='" + feature.properties.sarungtangan_bedah_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var total_sarungtangan_bedah = feature.properties.sarungtangan_bedah_s + feature.properties.sarungtangan_bedah_m + feature.properties.sarungtangan_bedah_l + feature.properties.sarungtangan_bedah_xl
+      var sarungtangan_bedah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_bedah + "</div>"
+
+      //Masker Bedah
+      var maskerbedah_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue19' value='" + feature.properties.maskerbedah_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Respirator N95
+      var respiratorn95_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue20' value='" + feature.properties.respiratorn95_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Penutup Kepala
+      var penutupkepala_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue21' value='" + feature.properties.penutupkepala_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Pelindung Mata
+      var pelindungmata_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue22' value='" + feature.properties.pelindungmata_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Pelindung Wajah
+      var pelindungwajah_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + feature.properties.pelindungwajah_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Gaun Medis
+      var gaunmedis_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue24' value='" + feature.properties.gaunmedis_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var gaunmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue25' value='" + feature.properties.gaunmedis_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var gaunmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue26' value='" + feature.properties.gaunmedis_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var gaunmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue27' value='" + feature.properties.gaunmedis_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var total_gaunmedis = feature.properties.gaunmedis_s + feature.properties.gaunmedis_m + feature.properties.gaunmedis_l + feature.properties.gaunmedis_xl
+      var gaunmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_gaunmedis + "</div>"
+
+      //Coverall Medis
+      var coverallmedis_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue28' value='" + feature.properties.coverallmedis_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var coverallmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue29' value='" + feature.properties.coverallmedis_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var coverallmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue30' value='" + feature.properties.coverallmedis_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var coverallmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue31' value='" + feature.properties.coverallmedis_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var total_coverallmedis = feature.properties.coverallmedis_s + feature.properties.coverallmedis_m + feature.properties.coverallmedis_l + feature.properties.coverallmedis_xl
+      var coverallmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
+
+      //Heavy Duty Apron
+      var heavydutyapron_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue32' value='" + feature.properties.heavydutyapron_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Sepatu Boot Anti Air
+      var sepatuboot_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue33' value='" + feature.properties.sepatuboot_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Penutup Sepatu
+      var penutupsepatu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue34' value='" + feature.properties.penutupsepatu_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      //Ventitalors
+      var ventilators_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue35' value='" + feature.properties.ventilators_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+      var ventilators_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue36' value='" + feature.properties.ventilators_terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+
+      var total_ventilators = feature.properties.ventilators_tersedia + feature.properties.ventilators_terpakai
+      var ventilators_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_ventilators + "</div>"
 
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
           $("#feature-info").html(content);
+
+          $("#feature-last_update").html(last_update);
+          //Pasien
           $("#feature-info-pasien-positif").html(pasien_positif);
           $("#feature-info-pasien-pdp").html(pasien_pdp);
           $("#feature-info-pasien-total").html(pasien_total);
+
+          //Kasur
           $("#feature-info-bed-rawatinap-tersedia").html(bed_rawatinap_tersedia);
           $("#feature-info-bed-rawatinap-terpakai").html(bed_rawatinap_terpakai);
           $("#feature-info-bed-icu-tersedia").html(bed_icu_tersedia);
           $("#feature-info-bed-icu-terpakai").html(bed_icu_terpakai);
           $("#feature-info-bed-total-rawatinap").html(bed_total_rawatinap);
           $("#feature-info-bed-total-icu").html(bed_total_icu);
+
+          //Staff
           $("#feature-info-staff-dokter-ada").html(staff_dokter_ada);
           $("#feature-info-staff-dokter-pergantianshift").html(staff_dokter_pergantianshift);
           $("#feature-info-staff-perawat-ada").html(staff_perawat_ada);
           $("#feature-info-staff-perawat-pergantianshift").html(staff_perawat_pergantianshift);
           $("#feature-info-staff-total-dokter").html(staff_total_dokter);
           $("#feature-info-staff-total-perawat").html(staff_total_perawat);
-          
+
+          //Sarung tangan Pemeriksaan
+          $("#feature-info-sarungtangan-periksa-s").html(sarungtangan_periksa_s);
+          $("#feature-info-sarungtangan-periksa-m").html(sarungtangan_periksa_m);
+          $("#feature-info-sarungtangan-periksa-l").html(sarungtangan_periksa_l);
+          $("#feature-info-sarungtangan-periksa-xl").html(sarungtangan_periksa_xl);
+          $("#feature-info-sarungtangan-periksa-total").html(sarungtangan_periksa_total);
+
+          //Sarung tangan Bedah
+          $("#feature-info-sarungtangan-bedah-s").html(sarungtangan_bedah_s);
+          $("#feature-info-sarungtangan-bedah-m").html(sarungtangan_bedah_m);
+          $("#feature-info-sarungtangan-bedah-l").html(sarungtangan_bedah_l);
+          $("#feature-info-sarungtangan-bedah-xl").html(sarungtangan_bedah_xl);
+          $("#feature-info-sarungtangan-bedah-total").html(sarungtangan_bedah_total);
+
+          //Masker bedah
+          $("#feature-info-maskerbedah-tersedia").html(maskerbedah_tersedia);
+
+          //Respirator N95
+          $("#feature-info-respiratorn95-tersedia").html(respiratorn95_tersedia);
+
+          //Penutup Kepala
+          $("#feature-info-penutupkepala-tersedia").html(penutupkepala_tersedia);
+
+          //Pelindung Mata
+          $("#feature-info-pelindungmata-tersedia").html(pelindungmata_tersedia);
+
+          //Pelindung Wajah
+          $("#feature-info-pelindungwajah-tersedia").html(pelindungwajah_tersedia);
+
+          //Gaun Medis
+          $("#feature-info-gaunmedis-s").html(gaunmedis_s);
+          $("#feature-info-gaunmedis-m").html(gaunmedis_m);
+          $("#feature-info-gaunmedis-l").html(gaunmedis_l);
+          $("#feature-info-gaunmedis-xl").html(gaunmedis_xl);
+          $("#feature-info-gaunmedis-total").html(gaunmedis_total);
+
+          //Coverall Medis
+          $("#feature-info-coverallmedis-s").html(coverallmedis_s);
+          $("#feature-info-coverallmedis-m").html(coverallmedis_m);
+          $("#feature-info-coverallmedis-l").html(coverallmedis_l);
+          $("#feature-info-coverallmedis-xl").html(coverallmedis_xl);
+          $("#feature-info-coverallmedis-total").html(coverallmedis_total);
+
+          //Heavy Duty Apron
+          $("#feature-info-heavydutyapron-tersedia").html(heavydutyapron_tersedia);
+
+          //Sepatu Boot Anti Air
+          $("#feature-info-sepatuboot-tersedia").html(sepatuboot_tersedia);
+
+          //Penutup Sepatu
+          $("#feature-info-penutupsepatu-tersedia").html(penutupsepatu_tersedia);
+
+          //Ventilator
+          $("#feature-info-ventilators-tersedia").html(ventilators_tersedia);
+          $("#feature-info-ventilators-terpakai").html(ventilators_terpakai);
+          $("#feature-info-ventilators-total").html(ventilators_total);
+
           $("#featureModal").modal("show");
           highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
         }
@@ -266,7 +402,7 @@ $.getJSON("data/Rumah sakit COVID-19.geojson", function (data) {
 });
 
 map = L.map("map", {
-  center: [-6.643,110.874],
+  center: [-6.643, 110.874],
   zoom: 6,
   layers: [cartoLight, boroughs, markerClusters, highlight],
   zoomControl: false,
@@ -274,14 +410,14 @@ map = L.map("map", {
 });
 
 /* Layer control listeners that allow for a single markerClusters layer */
-map.on("overlayadd", function(e) {
+map.on("overlayadd", function (e) {
   if (e.layer === hospitalLayer) {
     markerClusters.addLayer(hospitals);
     syncSidebar();
   }
 });
 
-map.on("overlayremove", function(e) {
+map.on("overlayremove", function (e) {
   if (e.layer === hospitalLayer) {
     markerClusters.removeLayer(hospitals);
     syncSidebar();
@@ -294,13 +430,13 @@ map.on("moveend", function (e) {
 });
 
 /* Clear feature highlight when map is clicked */
-map.on("click", function(e) {
+map.on("click", function (e) {
   highlight.clearLayers();
 });
 
 /* Attribution control */
 function updateAttribution(e) {
-  $.each(map._layers, function(index, layer) {
+  $.each(map._layers, function (index, layer) {
     if (layer.getAttribution) {
       $("#attribution").html((layer.getAttribution()));
     }
@@ -402,8 +538,8 @@ $(document).one("ajaxStop", function () {
   sizeLayerControl();
   /* Fit map to boroughs bounds */
   map.fitBounds(boroughs.getBounds());
-  featureList = new List("features", {valueNames: ["feature-name"]});
-  featureList.sort("feature-name", {order:"asc"});
+  featureList = new List("features", { valueNames: ["feature-name"] });
+  featureList.sort("feature-name", { order: "asc" });
 
   var boroughsBH = new Bloodhound({
     name: "Boroughs",
@@ -520,8 +656,8 @@ $(document).one("ajaxStop", function () {
 var container = $(".leaflet-control-layers")[0];
 if (!L.Browser.touch) {
   L.DomEvent
-  .disableClickPropagation(container)
-  .disableScrollPropagation(container);
+    .disableClickPropagation(container)
+    .disableScrollPropagation(container);
 } else {
   L.DomEvent.disableClickPropagation(container);
 }
@@ -551,11 +687,244 @@ function showPasswordRegister() {
 }
 
 $('input.typeahead').typeahead({
-  source:  function (query, process) {
+  source: function (query, process) {
     return $.get('/ajaxpro.php', { query: query }, function (data) {
-        console.log(data);
-        data = $.parseJSON(data);
-          return process(data);
-      });
+      console.log(data);
+      data = $.parseJSON(data);
+      return process(data);
+    });
   }
 });
+
+// $("#edit-btn").click(function() {
+//   document.getElementById("editvalue").readOnly = false;
+// });
+
+function editvalue() {
+  // console.log('inner text is', document.getElementById("Edit-btn").innerText);
+
+  if (document.getElementById("Edit-btn").innerText == "Edit Nilai") {
+    document.getElementById("editvalue1").readOnly = false;
+    document.getElementById("editvalue1").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue2").readOnly = false;
+    document.getElementById("editvalue2").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue3").readOnly = false;
+    document.getElementById("editvalue3").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue4").readOnly = false;
+    document.getElementById("editvalue4").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue5").readOnly = false;
+    document.getElementById("editvalue5").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue6").readOnly = false;
+    document.getElementById("editvalue6").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue7").readOnly = false;
+    document.getElementById("editvalue7").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue8").readOnly = false;
+    document.getElementById("editvalue8").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue9").readOnly = false;
+    document.getElementById("editvalue9").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue10").readOnly = false;
+    document.getElementById("editvalue10").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue11").readOnly = false;
+    document.getElementById("editvalue11").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue12").readOnly = false;
+    document.getElementById("editvalue12").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue13").readOnly = false;
+    document.getElementById("editvalue13").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue14").readOnly = false;
+    document.getElementById("editvalue14").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue15").readOnly = false;
+    document.getElementById("editvalue15").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue16").readOnly = false;
+    document.getElementById("editvalue16").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue17").readOnly = false;
+    document.getElementById("editvalue17").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue18").readOnly = false;
+    document.getElementById("editvalue18").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue19").readOnly = false;
+    document.getElementById("editvalue19").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue20").readOnly = false;
+    document.getElementById("editvalue20").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue21").readOnly = false;
+    document.getElementById("editvalue21").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue22").readOnly = false;
+    document.getElementById("editvalue22").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23").readOnly = false;
+    document.getElementById("editvalue23").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue24").readOnly = false;
+    document.getElementById("editvalue24").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue25").readOnly = false;
+    document.getElementById("editvalue25").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue26").readOnly = false;
+    document.getElementById("editvalue26").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue27").readOnly = false;
+    document.getElementById("editvalue27").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue28").readOnly = false;
+    document.getElementById("editvalue28").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue29").readOnly = false;
+    document.getElementById("editvalue29").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue30").readOnly = false;
+    document.getElementById("editvalue30").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue31").readOnly = false;
+    document.getElementById("editvalue31").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue32").readOnly = false;
+    document.getElementById("editvalue32").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue33").readOnly = false;
+    document.getElementById("editvalue33").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue34").readOnly = false;
+    document.getElementById("editvalue34").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue35").readOnly = false;
+    document.getElementById("editvalue35").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue36").readOnly = false;
+    document.getElementById("editvalue36").style.border = "1px solid yellow";
+
+    document.getElementById("Edit-btn").innerText = "Simpan Nilai"
+  }
+
+  else if (document.getElementById("Edit-btn").innerText == "Simpan Nilai") {
+    document.getElementById("editvalue1").readOnly = true;
+    document.getElementById("editvalue1").style.border = "none";
+
+    document.getElementById("editvalue2").readOnly = true;
+    document.getElementById("editvalue2").style.border = "none";
+
+    document.getElementById("editvalue3").readOnly = true;
+    document.getElementById("editvalue3").style.border = "none";
+
+    document.getElementById("editvalue4").readOnly = true;
+    document.getElementById("editvalue4").style.border = "none";
+
+    document.getElementById("editvalue5").readOnly = true;
+    document.getElementById("editvalue5").style.border = "none";
+
+    document.getElementById("editvalue6").readOnly = true;
+    document.getElementById("editvalue6").style.border = "none";
+
+    document.getElementById("editvalue7").readOnly = true;
+    document.getElementById("editvalue7").style.border = "none";
+
+    document.getElementById("editvalue8").readOnly = true;
+    document.getElementById("editvalue8").style.border = "none";
+
+    document.getElementById("editvalue9").readOnly = true;
+    document.getElementById("editvalue9").style.border = "none";
+
+    document.getElementById("editvalue10").readOnly = true;
+    document.getElementById("editvalue10").style.border = "none";
+
+    document.getElementById("editvalue11").readOnly = true;
+    document.getElementById("editvalue11").style.border = "none";
+
+    document.getElementById("editvalue12").readOnly = true;
+    document.getElementById("editvalue12").style.border = "none";
+
+    document.getElementById("editvalue13").readOnly = true;
+    document.getElementById("editvalue13").style.border = "none";
+
+    document.getElementById("editvalue14").readOnly = true;
+    document.getElementById("editvalue14").style.border = "none";
+
+    document.getElementById("editvalue15").readOnly = true;
+    document.getElementById("editvalue15").style.border = "none";
+
+    document.getElementById("editvalue16").readOnly = true;
+    document.getElementById("editvalue16").style.border = "none";
+
+    document.getElementById("editvalue17").readOnly = true;
+    document.getElementById("editvalue17").style.border = "none";
+
+    document.getElementById("editvalue18").readOnly = true;
+    document.getElementById("editvalue18").style.border = "none";
+
+    document.getElementById("editvalue19").readOnly = true;
+    document.getElementById("editvalue19").style.border = "none";
+
+    document.getElementById("editvalue20").readOnly = true;
+    document.getElementById("editvalue20").style.border = "none";
+
+    document.getElementById("editvalue21").readOnly = true;
+    document.getElementById("editvalue21").style.border = "none";
+
+    document.getElementById("editvalue22").readOnly = true;
+    document.getElementById("editvalue22").style.border = "none";
+
+    document.getElementById("editvalue23").readOnly = true;
+    document.getElementById("editvalue23").style.border = "none";
+
+    document.getElementById("editvalue24").readOnly = true;
+    document.getElementById("editvalue24").style.border = "none";
+
+    document.getElementById("editvalue25").readOnly = true;
+    document.getElementById("editvalue25").style.border = "none";
+
+    document.getElementById("editvalue26").readOnly = true;
+    document.getElementById("editvalue26").style.border = "none";
+
+    document.getElementById("editvalue27").readOnly = true;
+    document.getElementById("editvalue27").style.border = "none";
+
+    document.getElementById("editvalue28").readOnly = true;
+    document.getElementById("editvalue28").style.border = "none";
+
+    document.getElementById("editvalue29").readOnly = true;
+    document.getElementById("editvalue29").style.border = "none";
+
+    document.getElementById("editvalue30").readOnly = true;
+    document.getElementById("editvalue30").style.border = "none";
+
+    document.getElementById("editvalue31").readOnly = true;
+    document.getElementById("editvalue31").style.border = "none";
+
+    document.getElementById("editvalue32").readOnly = true;
+    document.getElementById("editvalue32").style.border = "none";
+
+    document.getElementById("editvalue33").readOnly = true;
+    document.getElementById("editvalue33").style.border = "none";
+
+    document.getElementById("editvalue34").readOnly = true;
+    document.getElementById("editvalue34").style.border = "none";
+
+    document.getElementById("editvalue35").readOnly = true;
+    document.getElementById("editvalue35").style.border = "none";
+
+    document.getElementById("editvalue36").readOnly = true;
+    document.getElementById("editvalue36").style.border = "none";
+
+    document.getElementById("Edit-btn").innerText = "Edit Nilai"
+  }
+
+}

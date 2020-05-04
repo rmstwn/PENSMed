@@ -18,7 +18,7 @@
           "pasien": {
             "positif": 32,
             "pdp": 100
-          },
+          }, 
           "kasur": {
             "rawat_inap": {
               "tersedia": 120,
@@ -83,6 +83,7 @@
             "penutup_sepatu": 11
           }
         }],
+        "update_time": "Rabu, 20 April 2020 13:32:04",
         "pasien_positif": 1,
         "pasien_pdp": 2,
         "bed_rawatinap_tersedia": 3,
@@ -92,7 +93,33 @@
         "staff_dokter_ada": 7,
         "staff_dokter_pergantianshift": 8,
         "staff_perawat_ada": 9,
-        "staff_perawat_pergantianshift": 10
+        "staff_perawat_pergantianshift": 10,
+        "sarungtangan_periksa_s": 11,
+        "sarungtangan_periksa_m": 12,
+        "sarungtangan_periksa_l": 13,
+        "sarungtangan_periksa_xl": 14,
+        "sarungtangan_bedah_s": 15,
+        "sarungtangan_bedah_m": 16,
+        "sarungtangan_bedah_l": 17,
+        "sarungtangan_bedah_xl": 18,
+        "maskerbedah_tersedia": 19,
+        "respiratorn95_tersedia": 20,
+        "penutupkepala_tersedia": 21,
+        "pelindungmata_tersedia": 22,
+        "pelindungwajah_tersedia": 23,
+        "gaunmedis_s": 24,
+        "gaunmedis_m": 25,
+        "gaunmedis_l": 26,
+        "gaunmedis_xl": 27,
+        "coverallmedis_s": 28,
+        "coverallmedis_m": 29,
+        "coverallmedis_l": 30,
+        "coverallmedis_xl": 31,
+        "heavydutyapron_tersedia": 32,
+        "sepatuboot_tersedia": 33,
+        "penutupsepatu_tersedia": 34,
+        "ventilators_tersedia": 35,
+        "ventilators_terpakai": 36
       },
       "geometry": { "type": "Point", "coordinates": [112.758475, -7.268032] }
     },

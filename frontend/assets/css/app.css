@@ -194,6 +194,19 @@ input[type="radio"], input[type="checkbox"] {
   padding: 10px 13px;
 }
 
+.square-service-block2{
+  height:170px;
+  position:relative;
+  overflow:hidden;
+  margin:15px auto;
+  background-color: #0B668B;
+  border-radius: 5px;
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 10px 13px;
+}
+
 .ssb-icon {
 color: #fff;
 display: inline-block;

@@ -75,20 +75,24 @@
           </a>
         </div>
         <div class="navbar-collapse collapse">
-          <a href="#">
-            <button id="register-donor-btn" class="btn navbar-btn navbar-right"
-              style="margin-right: 5px; background-color: #FFD200; color:#0B668B;">DAFTAR</button>
-          </a>
-          <a href="#">
-            <button id="login-btn" class="btn navbar-btn navbar-right" href="#"
-              style="margin-right: 5px; color:#0B668B;">MASUK</button>
-          </a>
+          <form class="navbar-form navbar-right" role="img" style="margin: 0px; padding:0px; padding-top: 10px;">
+            <div class="form-group has-feedback">
+              <a href="#"><span class="glyphicon glyphicon-log-out pull-right" style="color: black; font-size: 27px; margin: 0px;"></span></a>
+            </div>
+          </form>
+          <form class="navbar-form navbar-right" role="search" style="padding:0px; padding-right:5px;">
+            <div class="form-group has-feedback">
+                <input id="searchbox" type="text" placeholder="Search" class="form-control">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
+          </form>
         </div>
         <!--/.nav-collapse -->
       </div>
       <!--/.container-fluid -->
     </nav>
   </div>
+
   <div id="container">
     <div id="sidebar">
       <div class="sidebar-wrapper">
@@ -138,124 +142,6 @@
     </div>
   </div>
 
-  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" style="text-align: center; color: #0B668B;">MASUK</h4>
-        </div>
-        <div class="modal-body">
-          <form id="contact-form">
-            <fieldset>
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
-              </div>
-              <div class="form-group">
-                <label for="passwordLogin">Password:</label>
-                <input type="password" class="form-control" id="passwordLogin">
-              </div>
-              <input type="checkbox" onclick="showPasswordLogin()">Show Password
-            </fieldset>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Login</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <div class="modal fade" id="registerDonorModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" style="text-align: center; color: #0B668B;">Daftar Akun Pendonor</h4>
-        </div>
-        <div class="modal-body">
-          <form id="contact-form">
-            <fieldset>
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
-              </div>
-              <div class="form-group">
-                <label for="passwordRegisterDonor1">Password:</label>
-                <input type="password" class="form-control" id="passwordRegisterDonor1">
-              </div>
-              <div class="form-group">
-                <label for="passwordRegisterDonor2">Confirm Password:</label>
-                <input type="password" class="form-control" id="passwordRegisterDonor2">
-                <input type="checkbox" onclick="showPasswordRegister()" style="margin-top: 5px;">Show Password
-              </div>
-              <div class="form-group">
-                <label for="name">Nama:</label>
-                <input type="text" class="form-control" id="name">
-              </div>
-              <div class="form-group">
-                <label for="nameCompany">Nama Perusahaan (opsional):</label>
-                <input type="text" class="form-control" id="nameCompany">
-              </div>
-              <a href="#" id="register-hospital-btn" data-dismiss="modal">Buat akun Rumah Sakit ?</a>
-            </fieldset>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Daftar</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
-  <div class="modal fade" id="registerHospitalModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title" style="text-align: center; color: #0B668B;">Buat Akun Rumah Sakit</h4>
-        </div>
-        <div class="modal-body">
-          <form id="contact-form">
-            <fieldset>
-              <div class="form-group">
-                <label for="selectHospital">Pilih Rumah Sakit:</label>
-                <select class="selectpicker form-control" id="selectHospital" data-live-search="true">
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
-              </div>
-              <div class="form-group">
-                <label for="passwordRegister1">Password:</label>
-                <input type="password" class="form-control" id="passwordRegister1">
-              </div>
-              <div class="form-group">
-                <label for="passwordRegister2">Confirm Password:</label>
-                <input type="password" class="form-control" id="passwordRegister2">
-                <input type="checkbox" onclick="showPasswordRegister()" style="margin-top: 5px;">Show Password
-              </div>
-              <div class="form-group">
-                <label for="IDHospital">Kode Rumah Sakit:</label>
-                <input type="number" class="form-control" id="IDHospital">
-              </div>
-              <!-- <a href="#" id="register-donor-btn" data-dismiss="modal">Buat akun Pendonor ?</a> -->
-            </fieldset>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Daftar</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
   <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -281,8 +167,11 @@
         </div>
         <div class="container-fluid">
           <div id="feature-last_update"></div>
+          <!-- <a href="#"> -->
+            <button onclick="editvalue()" id="Edit-btn" class="btn btn-warning btn-lg" href="#"
+              style="margin-left: 15px; color:#0B668B;">Edit Nilai</button>
+          <!-- </a> -->
           <div class="modal-body" id="feature-info"></div>
-          
           <div class="row">
             <div class="col-md-4">
               <div class="square-service-block">
