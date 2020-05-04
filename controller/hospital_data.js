@@ -104,7 +104,7 @@ exports.update_data = async (req,res) => {
 
     try {
         // Data model
-        let model = {
+        let model = [{
             update_time: localTime(),
             pasien: {
                 positif: pasien_positif,
@@ -173,12 +173,12 @@ exports.update_data = async (req,res) => {
                 sepatu_boot_anti_air: sepatu_boot_anti_air,
                 penutup_sepatu: penutup_sepatu,
             }
-        }
+        }]
 
         // Update stock
         let respond = await db.updateOne(
-            {"features.properties.NAME": rs.toUpperCase()},
-            {$set: {"features.$.properties.data": model}},
+            {hospital: rs.toUpperCase()},
+            {$push: {data: model}},
             {runValidators: true}
             )
         if (respond.nModified < 1) {

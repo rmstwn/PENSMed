@@ -8,14 +8,12 @@ const {model} = require('mongoose'),
 
 // List all hospital
 exports.list_all = (req,res) => {
-    db.find({"type": "FeatureCollection"},
-        {"features.properties.NAME": 1,
-        "features.properties.TEL": 1,
-        "features.properties.ADDRESS": 1,
-        "features.properties.URL": 1,
-        "features.properties.data.staf": 1,
-        "features.properties.data.kasur": 1,
-        "features.properties.data.pasien": 1,
+    db.find({},
+        {email: 0,
+        password: 0,
+        confirm: 0,
+        session: 0,
+        "data.apd": 0
         }, (err, data) => {
         if(err) {
             console.error(err)
@@ -28,12 +26,12 @@ exports.list_all = (req,res) => {
 
 // Remove all hospital
 exports.remove_all = (req,res) => {
-    db.updateOne({type: "FeatureCollection"},{$set: {features: []}} ,(err, respond) => {
+    db.remove({},(err, respond) => {
         if(err) {
             console.error(err)
             res.sendStatus(500)
             return
-        } else if (respond.nModified < 1) {
+        } else if (respond.nDeleted < 1) {
             res.sendStatus(204)
             return
         }
@@ -45,7 +43,7 @@ exports.remove_all = (req,res) => {
 exports.remove_one = (req,res) => {
     let {name} = req.params
 
-    db.updateOne({type: "FeatureCollection"}, {$pull: {features : {"properties.NAME": name.toUpperCase()}}} ,(err, respond) => {
+    db.deleteOne({hospital: name.toUpperCase()},(err, respond) => {
         if(err) {
             console.error(err)
             res.sendStatus(500)
@@ -61,7 +59,7 @@ exports.remove_one = (req,res) => {
 // Find hospital data
 exports.hospital_data = (req,res) => {
     let {name} = req.params
-    find_one(db, {"features.properties.NAME": name.toUpperCase()})
+    find_one(db, {hospital: name.toUpperCase()})
         .then(data => res.json(data))
         .catch(err => res.sendStatus(500))
 }

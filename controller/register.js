@@ -81,7 +81,7 @@ exports.register_data = async (req,res) => {
             kode
         } = req.body
     
-    let model, count,
+    let model,
         randombyte = random_bytes(100),
         hash = hashing(randombyte,10)
 
@@ -95,7 +95,7 @@ exports.register_data = async (req,res) => {
 
         let data = await donor.find({email: email})
         if (data.length < 1)
-            data = await hospital.find({features: {$elemMatch: {"properties.email": email}}})
+            data = await hospital.find({email: email})
 
         // Check request pattern with RegEx
         if(!check_pattern(email, 'email')) {
@@ -129,8 +129,7 @@ and minimum 6 characters')
                 email: email,
                 password: password,
                 name: name,
-                perusahaan: perusahaan,
-                confirm: hash
+                perusahaan: perusahaan
             }
             await donor_schema.create(model)
         } else if (category == 'hospital') {
@@ -138,22 +137,12 @@ and minimum 6 characters')
                 kode = ''
 
             model = {
-                type: "Feature",
-                id: 0,
-                properties: {
                     email: email,
                     password: password,
-                    NAME: name,
+                    hospital: name,
                     kode: kode
-                }
             }
-
-            count = await hospital.findOne({"type": "FeatureCollection"},{features: 1})
-
-            if (count != null)
-                model.id = count.features.length
-
-            await hospital_schema.updateOne({"type": "FeatureCollection"}, {$push: {features: model}}, {upsert: true})
+            await hospital_schema.create(model)
         }
     } catch(err) {
         // If error occurs

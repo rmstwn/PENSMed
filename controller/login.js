@@ -21,7 +21,7 @@ exports.login_page = async (req,res) => {
             let hash = hashing(session,10),
                 data = await donor.findOne({session: hash})
                 if(data == null)
-                    data = await hospital.findOne({features: {$elemMatch: {"properties.session": hash}}})
+                    data = await hospital.findOne({session: hash})
 
             if(data != null) {
                 res.redirect('/')
@@ -49,13 +49,13 @@ exports.authentication = async (req,res) => {
     }
 
     try {
-            donor_account = await donor.findOne({email: email}, {password: 1})
-            if (donor_account != null)
-                account_password = donor_account.password
-            else {
-                hospital_account = await hospital.findOne({features: {$elemMatch: {"properties.email": email}}},{"features.properties.password": 1})
-                account_password = hospital_account.features[0].properties.password
-            }
+        donor_account = await donor.findOne({email: email}, {password: 1})
+        if (donor_account != null)
+            account_password = donor_account.password
+        else {
+            hospital_account = await hospital.findOne({email: email},{password: 1})
+            account_password = hospital_account.password
+        }
 
         if (hospital_account == null && donor_account == null) {
             res.sendStatus(400)
@@ -69,7 +69,7 @@ exports.authentication = async (req,res) => {
             hash = hashing(token,10)
         
         if (hospital_account != null) {
-            await hospital.updateOne({"features.properties.email": email},{$set: {"features.$.properties.session": hash}})
+            await hospital.updateOne({email: email},{$set: {session: hash}})
         } else {
             await donor.updateOne({email: email},{$set: {session: hash}})
         }

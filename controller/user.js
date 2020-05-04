@@ -90,17 +90,17 @@ exports.update_data = async(req,res) => {
 			await request_check(url, 'url')
 			await request_check(zip, 'zip')
 
-			let status = await hospital.updateOne({features: {$elemMatch: {"properties.session": session}}},{
+			let status = await hospital.updateOne({session: session},{
 					$set: {
-                        "geometry.coordinates": [coord1,coord2],
-						"features.$.properties": {
-							NAME: hospital_name,
-							TEL: contact,
-							CITY: city,
-							kode: kode,
-							URL: url,
-							ADDRESS1: address,
-							ZIP: zip,
+						hospital: hospital_name,
+						contact: contact,
+						city: city,
+						kode: kode,
+						url: url,
+						location: {
+							address1: address,
+							zip: zip,
+							coordinates: [coord1, coord2]
 						}
 					}
 				})
