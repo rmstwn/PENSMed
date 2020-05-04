@@ -195,194 +195,204 @@ var hospitals = L.geoJson(null, {
     $('#selectHospital').append($('<option></option>').attr('value', feature.id).text(layer.feature.properties.NAME));
     if (feature.properties) {
       var content = "<table class='table table-striped table-bordered table-condensed'>" + "</td></tr>" + "<tr><th>No. Telp.</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Alamat</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      $.getJSON(`http://localhost:3000/api/v1/data/hospital/${layer.feature.properties.NAME}`, function (data) {
 
-      var last_update = "<h5 style='text-align: right;'>Last Update : <span style='color: red;'>" + feature.properties.update_time + "</span></h5>"
+        var last_update = "<h5 style='text-align: right;'>Last Update : <span style='color: red;'>" + data.data[0].update_time + "</span></h5>"
+  
+        // Pasien
+        var pasien_positif = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue1' value='" + data.data[0].pasien.positif + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pasien_pdp = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue2' value='" + data.data[0].pasien.pdp + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total = data.data[0].pasien.positif + data.data[0].pasien.pdp
+        var pasien_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total + "</div>"
+  
+        // Kasur
+        var bed_rawatinap_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue3' value='" + data.data[0].kasur.rawat_inap.tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var bed_rawatinap_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue4' value='" + data.data[0].kasur.rawat_inap.terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var bed_icu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue5' value='" + data.data[0].kasur.icu.tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var bed_icu_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue6' value='" + data.data[0].kasur.icu.terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_rawatinap = data.data[0].kasur.rawat_inap.tersedia + data.data[0].kasur.rawat_inap.terpakai
+        var total_icu = data.data[0].kasur.icu.tersedia + data.data[0].kasur.icu.terpakai
+        var bed_total_rawatinap = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_rawatinap + "</div>"
+        var bed_total_icu = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_icu + "</div>"
+  
+        // Staff
+        var staff_dokter_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue7' value='" + data.data[0].staf.dokter.ada + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var staff_dokter_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue8' value='" + data.data[0].staf.dokter.pergantian_shift + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var staff_perawat_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue9' value='" + data.data[0].staf.perawat.ada + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var staff_perawat_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue10' value='" + data.data[0].staf.perawat.pergantian_shift + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_dokter = data.data[0].staf.dokter.ada + data.data[0].staf.dokter.pergantian_shift
+        var total_perawat = data.data[0].staf.perawat.ada + data.data[0].staf.perawat.pergantian_shift
+        var staff_total_dokter = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_dokter + "</div>"
+        var staff_total_perawat = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_perawat + "</div>"
+  
+        //Sarung Tangan Pemeriksaan
+        var sarungtangan_periksa_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue11' value='" + data.data[0].apd.sarung_tangan_periksa.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var sarungtangan_periksa_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue12' value='" + data.data[0].apd.sarung_tangan_periksa.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var sarungtangan_periksa_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue13' value='" + data.data[0].apd.sarung_tangan_periksa.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var sarungtangan_periksa_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue14' value='" + data.data[0].apd.sarung_tangan_periksa.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_sarungtangan_periksa = data.data[0].apd.sarung_tangan_periksa.s + data.data[0].apd.sarung_tangan_periksa.m + data.data[0].apd.sarung_tangan_periksa.l + data.data[0].apd.sarung_tangan_periksa.xl
+        var sarungtangan_periksa_total = "<div class='col-sm-1' style='text.align: right; color: white; padding: 0px;'>" + total_sarungtangan_periksa + "</div>"
 
-      // Pasien
-      var pasien_positif = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue1' value='" + feature.properties.pasien_positif + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var pasien_pdp = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue2' value='" + feature.properties.pasien_pdp + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        //Sarung Tangan Bedah
+        var sarungtangan_bedah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue15' value='" + data.data[0].apd.sarung_tangan_bedah.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var sarungtangan_bedah_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue16' value='" + data.data[0].apd.sarung_tangan_bedah.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var sarungtangan_bedah_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue17' value='" + data.data[0].apd.sarung_tangan_bedah.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var sarungtangan_bedah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue18' value='" + data.data[0].apd.sarung_tangan_bedah.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_sarungtangan_bedah = data.data[0].apd.sarung_tangan_bedah.s + data.data[0].apd.sarung_tangan_bedah.m + data.data[0].apd.sarung_tangan_bedah.l + data.data[0].apd.sarung_tangan_bedah.xl
+        var sarungtangan_bedah_total = "<div class='col-sm-1' style='te.t-align: right; color: white; padding: 0px;'>" + total_sarungtangan_bedah + "</div>"
 
-      var total = feature.properties.pasien_positif + feature.properties.pasien_pdp
-      var pasien_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total + "</div>"
+        //Masker Bedah
+        var maskerbedah_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue19' value='" + data.data[0].apd.masker_bedah + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Respirator N95
+        var respiratorn95_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue20' value='" + data.data[0].apd.respirator_n95 + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Penutup Kepala
+        var penutupkepala_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue21' value='" + data.data[0].apd.penutup_kepala + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Pelindung Mata
+        var pelindungmata_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue22' value='" + data.data[0].apd.pelindung_mata + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Pelindung Wajah
+        var pelindungwajah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_total = data.data[0].apd.pelindung_wajah.s + data.data[0].apd.pelindung_wajah.m + data.data[0].apd.pelindung_wajah.l + data.data[0].apd.pelindung_wajah.xl
+        pelindungwajah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + pelindungwajah_total + "</div>"
+        //Gaun Medis
+        var gaunmedis_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue24' value='" + data.data[0].apd.gaun_medis.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var gaunmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue25' value='" + data.data[0].apd.gaun_medis.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var gaunmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue26' value='" + data.data[0].apd.gaun_medis.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var gaunmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue27' value='" + data.data[0].apd.gaun_medis.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_gaunmedis = data.data[0].apd.gaun_medis.s + data.data[0].apd.gaun_medis.m + data.data[0].apd.gaun_medis.l + data.data[0].apd.gaun_medis.xl
+        var gaunmedis_total = "<div class='col-sm-1'.style='text-align: right; color: white; padding: 0px;'>" + total_gaunmedis + "</div>"
 
-      // Kasur
-      var bed_rawatinap_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue3' value='" + feature.properties.bed_rawatinap_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var bed_rawatinap_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue4' value='" + feature.properties.bed_rawatinap_terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        //Coverall Medis
+        var coverallmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue29' value='" + data.data[0].apd.coverall_medis.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var coverallmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue30' value='" + data.data[0].apd.coverall_medis.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var coverallmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue31' value='" + data.data[0].apd.coverall_medis.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var coverallmedis_xxl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue28' value='" + data.data[0].apd.coverall_medis.xxl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_coverallmedis = data.data[0].apd.coverall_medis.xxl + data.data[0].apd.coverall_medis.m + data.data[0].apd.coverall_medis.l + data.data[0].apd.coverall_medis.xl
+        var coverallmedis_total = "<div class='col-sm-1' sty.e='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
 
-      var bed_icu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue5' value='" + feature.properties.bed_icu_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var bed_icu_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue6' value='" + feature.properties.bed_icu_terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_rawatinap = feature.properties.bed_rawatinap_tersedia + feature.properties.bed_rawatinap_terpakai
-      var total_icu = feature.properties.bed_icu_tersedia + feature.properties.bed_icu_terpakai
-      var bed_total_rawatinap = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_rawatinap + "</div>"
-      var bed_total_icu = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_icu + "</div>"
-
-      // Staff
-      var staff_dokter_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue7' value='" + feature.properties.staff_dokter_ada + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var staff_dokter_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue8' value='" + feature.properties.staff_dokter_pergantianshift + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var staff_perawat_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue9' value='" + feature.properties.staff_perawat_ada + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var staff_perawat_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'><input type='text' id='editvalue10' value='" + feature.properties.staff_perawat_pergantianshift + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_dokter = feature.properties.staff_dokter_ada + feature.properties.staff_dokter_pergantianshift
-      var total_perawat = feature.properties.staff_perawat_ada + feature.properties.staff_perawat_pergantianshift
-      var staff_total_dokter = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_dokter + "</div>"
-      var staff_total_perawat = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_perawat + "</div>"
-
-      //Sarung Tangan Pemeriksaan
-      var sarungtangan_periksa_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue11' value='" + feature.properties.sarungtangan_periksa_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var sarungtangan_periksa_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue12' value='" + feature.properties.sarungtangan_periksa_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var sarungtangan_periksa_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue13' value='" + feature.properties.sarungtangan_periksa_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var sarungtangan_periksa_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue14' value='" + feature.properties.sarungtangan_periksa_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_sarungtangan_periksa = feature.properties.sarungtangan_periksa_s + feature.properties.sarungtangan_periksa_m + feature.properties.sarungtangan_periksa_l + feature.properties.sarungtangan_periksa_xl
-      var sarungtangan_periksa_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_periksa + "</div>"
-
-      //Sarung Tangan Bedah
-      var sarungtangan_bedah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue15' value='" + feature.properties.sarungtangan_bedah_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var sarungtangan_bedah_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue16' value='" + feature.properties.sarungtangan_bedah_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var sarungtangan_bedah_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue17' value='" + feature.properties.sarungtangan_bedah_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var sarungtangan_bedah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue18' value='" + feature.properties.sarungtangan_bedah_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_sarungtangan_bedah = feature.properties.sarungtangan_bedah_s + feature.properties.sarungtangan_bedah_m + feature.properties.sarungtangan_bedah_l + feature.properties.sarungtangan_bedah_xl
-      var sarungtangan_bedah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_bedah + "</div>"
-
-      //Masker Bedah
-      var maskerbedah_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue19' value='" + feature.properties.maskerbedah_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Respirator N95
-      var respiratorn95_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue20' value='" + feature.properties.respiratorn95_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Penutup Kepala
-      var penutupkepala_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue21' value='" + feature.properties.penutupkepala_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Pelindung Mata
-      var pelindungmata_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue22' value='" + feature.properties.pelindungmata_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Pelindung Wajah
-      var pelindungwajah_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + feature.properties.pelindungwajah_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Gaun Medis
-      var gaunmedis_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue24' value='" + feature.properties.gaunmedis_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var gaunmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue25' value='" + feature.properties.gaunmedis_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var gaunmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue26' value='" + feature.properties.gaunmedis_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var gaunmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue27' value='" + feature.properties.gaunmedis_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_gaunmedis = feature.properties.gaunmedis_s + feature.properties.gaunmedis_m + feature.properties.gaunmedis_l + feature.properties.gaunmedis_xl
-      var gaunmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_gaunmedis + "</div>"
-
-      //Coverall Medis
-      var coverallmedis_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue28' value='" + feature.properties.coverallmedis_s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var coverallmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue29' value='" + feature.properties.coverallmedis_m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var coverallmedis_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue30' value='" + feature.properties.coverallmedis_l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var coverallmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue31' value='" + feature.properties.coverallmedis_xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_coverallmedis = feature.properties.coverallmedis_s + feature.properties.coverallmedis_m + feature.properties.coverallmedis_l + feature.properties.coverallmedis_xl
-      var coverallmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
-
-      //Heavy Duty Apron
-      var heavydutyapron_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue32' value='" + feature.properties.heavydutyapron_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Sepatu Boot Anti Air
-      var sepatuboot_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue33' value='" + feature.properties.sepatuboot_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Penutup Sepatu
-      var penutupsepatu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue34' value='" + feature.properties.penutupsepatu_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      //Ventitalors
-      var ventilators_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue35' value='" + feature.properties.ventilators_tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-      var ventilators_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue36' value='" + feature.properties.ventilators_terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-
-      var total_ventilators = feature.properties.ventilators_tersedia + feature.properties.ventilators_terpakai
-      var ventilators_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_ventilators + "</div>"
-
-      layer.on({
-        click: function (e) {
-          $("#feature-title").html(feature.properties.NAME);
-          $("#feature-info").html(content);
-
-          $("#feature-last_update").html(last_update);
-          //Pasien
-          $("#feature-info-pasien-positif").html(pasien_positif);
-          $("#feature-info-pasien-pdp").html(pasien_pdp);
-          $("#feature-info-pasien-total").html(pasien_total);
-
-          //Kasur
-          $("#feature-info-bed-rawatinap-tersedia").html(bed_rawatinap_tersedia);
-          $("#feature-info-bed-rawatinap-terpakai").html(bed_rawatinap_terpakai);
-          $("#feature-info-bed-icu-tersedia").html(bed_icu_tersedia);
-          $("#feature-info-bed-icu-terpakai").html(bed_icu_terpakai);
-          $("#feature-info-bed-total-rawatinap").html(bed_total_rawatinap);
-          $("#feature-info-bed-total-icu").html(bed_total_icu);
-
-          //Staff
-          $("#feature-info-staff-dokter-ada").html(staff_dokter_ada);
-          $("#feature-info-staff-dokter-pergantianshift").html(staff_dokter_pergantianshift);
-          $("#feature-info-staff-perawat-ada").html(staff_perawat_ada);
-          $("#feature-info-staff-perawat-pergantianshift").html(staff_perawat_pergantianshift);
-          $("#feature-info-staff-total-dokter").html(staff_total_dokter);
-          $("#feature-info-staff-total-perawat").html(staff_total_perawat);
-
-          //Sarung tangan Pemeriksaan
-          $("#feature-info-sarungtangan-periksa-s").html(sarungtangan_periksa_s);
-          $("#feature-info-sarungtangan-periksa-m").html(sarungtangan_periksa_m);
-          $("#feature-info-sarungtangan-periksa-l").html(sarungtangan_periksa_l);
-          $("#feature-info-sarungtangan-periksa-xl").html(sarungtangan_periksa_xl);
-          $("#feature-info-sarungtangan-periksa-total").html(sarungtangan_periksa_total);
-
-          //Sarung tangan Bedah
-          $("#feature-info-sarungtangan-bedah-s").html(sarungtangan_bedah_s);
-          $("#feature-info-sarungtangan-bedah-m").html(sarungtangan_bedah_m);
-          $("#feature-info-sarungtangan-bedah-l").html(sarungtangan_bedah_l);
-          $("#feature-info-sarungtangan-bedah-xl").html(sarungtangan_bedah_xl);
-          $("#feature-info-sarungtangan-bedah-total").html(sarungtangan_bedah_total);
-
-          //Masker bedah
-          $("#feature-info-maskerbedah-tersedia").html(maskerbedah_tersedia);
-
-          //Respirator N95
-          $("#feature-info-respiratorn95-tersedia").html(respiratorn95_tersedia);
-
-          //Penutup Kepala
-          $("#feature-info-penutupkepala-tersedia").html(penutupkepala_tersedia);
-
-          //Pelindung Mata
-          $("#feature-info-pelindungmata-tersedia").html(pelindungmata_tersedia);
-
-          //Pelindung Wajah
-          $("#feature-info-pelindungwajah-tersedia").html(pelindungwajah_tersedia);
-
-          //Gaun Medis
-          $("#feature-info-gaunmedis-s").html(gaunmedis_s);
-          $("#feature-info-gaunmedis-m").html(gaunmedis_m);
-          $("#feature-info-gaunmedis-l").html(gaunmedis_l);
-          $("#feature-info-gaunmedis-xl").html(gaunmedis_xl);
-          $("#feature-info-gaunmedis-total").html(gaunmedis_total);
-
-          //Coverall Medis
-          $("#feature-info-coverallmedis-s").html(coverallmedis_s);
-          $("#feature-info-coverallmedis-m").html(coverallmedis_m);
-          $("#feature-info-coverallmedis-l").html(coverallmedis_l);
-          $("#feature-info-coverallmedis-xl").html(coverallmedis_xl);
-          $("#feature-info-coverallmedis-total").html(coverallmedis_total);
-
-          //Heavy Duty Apron
-          $("#feature-info-heavydutyapron-tersedia").html(heavydutyapron_tersedia);
-
-          //Sepatu Boot Anti Air
-          $("#feature-info-sepatuboot-tersedia").html(sepatuboot_tersedia);
-
-          //Penutup Sepatu
-          $("#feature-info-penutupsepatu-tersedia").html(penutupsepatu_tersedia);
-
-          //Ventilator
-          $("#feature-info-ventilators-tersedia").html(ventilators_tersedia);
-          $("#feature-info-ventilators-terpakai").html(ventilators_terpakai);
-          $("#feature-info-ventilators-total").html(ventilators_total);
-
-          $("#featureModal").modal("show");
-          highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
-        }
+        //Heavy Duty Apron
+        var heavydutyapron_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue32' value='" + data.data[0].apd.heavy_duty_apron + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Sepatu Boot Anti Air
+        var sepatuboot_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue33' value='" + data.data[0].apd.sepatu_boot_anti_air + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Penutup Sepatu
+        var penutupsepatu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue34' value='" + data.data[0].apd.penutup_sepatu + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        //Ventitalors
+        var ventilators_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue35' value='" + data.data[0].apd.ventilator.tersedia + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var ventilators_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'><input type='text' id='editvalue36' value='" + data.data[0].apd.ventilator.terpakai + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+  
+        var total_ventilators = data.data[0].apd.ventilator.tersedia + data.data[0].apd.ventilator.terpakai
+        var ventilators_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_ventilators + "</div>"
+  
+        layer.on({
+          click: function (e) {
+            $("#feature-title").html(feature.properties.NAME);
+            $("#feature-info").html(content);
+  
+            $("#feature-last_update").html(last_update);
+            //Pasien
+            $("#feature-info-pasien-positif").html(pasien_positif);
+            $("#feature-info-pasien-pdp").html(pasien_pdp);
+            $("#feature-info-pasien-total").html(pasien_total);
+  
+            //Kasur
+            $("#feature-info-bed-rawatinap-tersedia").html(bed_rawatinap_tersedia);
+            $("#feature-info-bed-rawatinap-terpakai").html(bed_rawatinap_terpakai);
+            $("#feature-info-bed-icu-tersedia").html(bed_icu_tersedia);
+            $("#feature-info-bed-icu-terpakai").html(bed_icu_terpakai);
+            $("#feature-info-bed-total-rawatinap").html(bed_total_rawatinap);
+            $("#feature-info-bed-total-icu").html(bed_total_icu);
+  
+            //Staff
+            $("#feature-info-staff-dokter-ada").html(staff_dokter_ada);
+            $("#feature-info-staff-dokter-pergantianshift").html(staff_dokter_pergantianshift);
+            $("#feature-info-staff-perawat-ada").html(staff_perawat_ada);
+            $("#feature-info-staff-perawat-pergantianshift").html(staff_perawat_pergantianshift);
+            $("#feature-info-staff-total-dokter").html(staff_total_dokter);
+            $("#feature-info-staff-total-perawat").html(staff_total_perawat);
+  
+            //Sarung tangan Pemeriksaan
+            $("#feature-info-sarungtangan-periksa-s").html(sarungtangan_periksa_s);
+            $("#feature-info-sarungtangan-periksa-m").html(sarungtangan_periksa_m);
+            $("#feature-info-sarungtangan-periksa-l").html(sarungtangan_periksa_l);
+            $("#feature-info-sarungtangan-periksa-xl").html(sarungtangan_periksa_xl);
+            $("#feature-info-sarungtangan-periksa-total").html(sarungtangan_periksa_total);
+  
+            //Sarung tangan Bedah
+            $("#feature-info-sarungtangan-bedah-s").html(sarungtangan_bedah_s);
+            $("#feature-info-sarungtangan-bedah-m").html(sarungtangan_bedah_m);
+            $("#feature-info-sarungtangan-bedah-l").html(sarungtangan_bedah_l);
+            $("#feature-info-sarungtangan-bedah-xl").html(sarungtangan_bedah_xl);
+            $("#feature-info-sarungtangan-bedah-total").html(sarungtangan_bedah_total);
+  
+            //Masker bedah
+            $("#feature-info-maskerbedah-tersedia").html(maskerbedah_tersedia);
+  
+            //Respirator N95
+            $("#feature-info-respiratorn95-tersedia").html(respiratorn95_tersedia);
+  
+            //Penutup Kepala
+            $("#feature-info-penutupkepala-tersedia").html(penutupkepala_tersedia);
+  
+            //Pelindung Mata
+            $("#feature-info-pelindungmata-tersedia").html(pelindungmata_tersedia);
+  
+            //Pelindung Wajah
+            $("#feature-info-pelindungwajah-s").html(pelindungwajah_s);
+            $("#feature-info-pelindungwajah-m").html(pelindungwajah_m);
+            $("#feature-info-pelindungwajah-l").html(pelindungwajah_l);
+            $("#feature-info-pelindungwajah-xl").html(pelindungwajah_xl);
+            $("#feature-info-pelindungwajah-total").html(pelindungwajah_total);
+  
+            //Gaun Medis
+            $("#feature-info-gaunmedis-s").html(gaunmedis_s);
+            $("#feature-info-gaunmedis-m").html(gaunmedis_m);
+            $("#feature-info-gaunmedis-l").html(gaunmedis_l);
+            $("#feature-info-gaunmedis-xl").html(gaunmedis_xl);
+            $("#feature-info-gaunmedis-total").html(gaunmedis_total);
+  
+            //Coverall Medis
+            $("#feature-info-coverallmedis-xxl").html(coverallmedis_xxl);
+            $("#feature-info-coverallmedis-m").html(coverallmedis_m);
+            $("#feature-info-coverallmedis-l").html(coverallmedis_l);
+            $("#feature-info-coverallmedis-xl").html(coverallmedis_xl);
+            $("#feature-info-coverallmedis-total").html(coverallmedis_total);
+  
+            //Heavy Duty Apron
+            $("#feature-info-heavydutyapron-tersedia").html(heavydutyapron_tersedia);
+  
+            //Sepatu Boot Anti Air
+            $("#feature-info-sepatuboot-tersedia").html(sepatuboot_tersedia);
+  
+            //Penutup Sepatu
+            $("#feature-info-penutupsepatu-tersedia").html(penutupsepatu_tersedia);
+  
+            //Ventilator
+            $("#feature-info-ventilators-tersedia").html(ventilators_tersedia);
+            $("#feature-info-ventilators-terpakai").html(ventilators_terpakai);
+            $("#feature-info-ventilators-total").html(ventilators_total);
+  
+            $("#featureModal").modal("show");
+            highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
+          }
+        });
       });
       $("#feature-list tbody").append('<tr class="feature-row" id="' + L.stamp(layer) + '" lat="' + layer.getLatLng().lat + '" lng="' + layer.getLatLng().lng + '"><td style="vertical-align: middle;"><img width="16" height="18" src="assets/img/hospital.png"></td><td class="feature-name">' + layer.feature.properties.NAME + '</td><td style="vertical-align: middle;"><i class="fa fa-chevron-right pull-right"></i></td></tr>');
       hospitalSearch.push({
@@ -396,7 +406,7 @@ var hospitals = L.geoJson(null, {
     }
   }
 });
-$.getJSON("data/Rumah sakit COVID-19.geojson", function (data) {
+$.getJSON("http://localhost:3000/api/v1/map/hospital", function (data) {
   hospitals.addData(data);
   map.addLayer(hospitalLayer);
 });
