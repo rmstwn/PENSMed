@@ -251,11 +251,120 @@
         <div class="modal-header">
           <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
           <h4 class="modal-title">
-            Developed by <a href='http://pensmed.com'>pensmed.com</a>
+            Developed by <a href='https://pensmed.com'>pensmed.com</a>
           </h4>
         </div>
         <div class="modal-body">
           <div id="attribution"></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade bd-example-modal-lg" id="featureModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title text-primary" id="feature-title"></h4>
+        </div>
+        <div class="container-fluid">
+          <div class="modal-body" id="feature-info"></div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block">
+                <div class="container">
+                <!-- <h2 class="ssb-title">pasien</h2> -->
+                <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                  <div class="col-sm-1" style="font-size: 20px; color: white; padding: 0px; ">
+                    Pasien
+                  </div>
+                </div>  
+                <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                  <div class="col-sm-2" style="padding: 0px;">Terkonfirmasi</div>
+                  <div id="feature-info-pasien-positif"></div>
+                </div>
+                <div class="row" style="padding-bottom:5px;color: yellow;">
+                  <div class="col-sm-2" style="padding: 0px;">Pasien dalam pengawasan(PDP)</div>
+                  <div id="feature-info-pasien-pdp"></div>
+                </div>
+                <div class="row" style="padding-bottom:5px;color: white;">
+                  <div class="col-sm-2" style="padding: 0px;">Total</div>
+                  <div id="feature-info-pasien-total"></div>
+                </div>
+              </div>
+               </div>
+             </div>
+             
+             <div class="col-md-4">
+                <div class="square-service-block">
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm-1" style="font-size: 20px; color: white; padding: 0px; ">
+                          Kasur
+                        </div>
+                        <div class="col-sm-1" style="text-decoration: underline; font-size: 13px; text-align: right; color: white; padding: 0px; padding-top: 6px;">
+                          Rawat inap
+                        </div>
+                        <div class="col-sm-1" style="text-decoration: underline; font-size: 15px; text-align: right; color: white; padding: 0px; padding-top: 4px; padding-right: 5px;">
+                          ICU
+                        </div>
+                      </div>
+                      <div class="row" style="padding-top:5px; padding-bottom:5px; color: greenyellow;">
+                        <div class="col-sm-1" style="padding: 0px;">Tersedia</div>
+                        <div id="feature-info-bed-rawatinap-tersedia"></div>
+                        <div id="feature-info-bed-icu-tersedia"></div>
+                      </div>
+                      <div class="row" style="padding-bottom:5px; color: yellow;">
+                        <div class="col-sm-1" style="padding: 0px;">Terpakai</div>
+                        <div id="feature-info-bed-rawatinap-terpakai"></div>
+                        <div id="feature-info-bed-icu-terpakai"></div>
+                      </div>
+                      <div class="row" style="padding-bottom:5px; color: white;">
+                        <div class="col-sm-1" style="padding: 0px; ">Total</div>
+                        <div id="feature-info-bed-total-rawatinap"></div>
+                        <div id="feature-info-bed-total-icu"></div>
+                      </div>
+                    </div>
+                </div>
+               </div>
+
+             <div class="col-md-4">
+              <div class="square-service-block">
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-1" style="font-size: 20px; color: white; padding: 0px; ">
+                      Staff
+                    </div>
+                    <div class="col-sm-1" style="text-decoration: underline; font-size: 15px; text-align: right; color: white; padding: 0px; padding-top: 4px; padding-right: 0px;">
+                      Dokter
+                    </div>
+                    <div class="col-sm-1" style="text-decoration: underline; font-size: 15px; text-align: right; color: white; padding: 0px; padding-top: 4px; padding-right: 0px;">
+                      Perawat
+                    </div>
+                  </div>
+                  <div class="row" style="padding-top:5px; padding-bottom:5px; color: greenyellow;">
+                    <div class="col-sm-1" style="padding: 0px;">Ada</div>
+                    <div id="feature-info-staff-dokter-ada"></div>
+                    <div id="feature-info-staff-perawat-ada"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px; color: yellow;">
+                    <div class="col-sm-1" style="padding: 0px;">Pergantian Shift</div>
+                    <div id="feature-info-staff-dokter-pergantianshift"></div>
+                    <div id="feature-info-staff-perawat-pergantianshift"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px; color: white;">
+                    <div class="col-sm-1" style="padding: 0px; ">Total</div>
+                    <div id="feature-info-staff-total-dokter"></div>
+                    <div id="feature-info-staff-total-perawat"></div>
+                  </div>
+                </div>
+            </div>
+             </div>
+          </div>
+       </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

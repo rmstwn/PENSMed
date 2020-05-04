@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>PENSMed</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+    <link rel="stylesheet" href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+    <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/pensmed-navbar.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/img/pensmed-navbar.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/img/pensmed-navbar.png">
+    <link rel="icon" sizes="196x196" href="assets/img/pensmed-navbar.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/pensmed-ico.png">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+    <style>
+        /* Modify the background color */ 
+          
+        .navbar-custom { 
+            background-color:#0B668B; 
+        } 
+        /* Modify brand and text color */ 
+          
+        .navbar-custom .navbar-brand, 
+        .navbar-custom .navbar-text { 
+            color: white; 
+        }
+
+      .navbar-brand {
+        padding: 0px;
+        display: flex;
+        align-items: center;
+      }
+      .navbar-brand>img {
+        height: 100%;
+        width: auto;
+        padding: 7px 14px;
+      }
+    </style>
+</head>
+<body>  
+  
+  <div class="container">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation" >
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-icon-container">
+            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i class="fa fa-bars fa-lg white"></i></a>
+          </div>
+
+          <a class="navbar-brand" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><img style=" width: 64px;" src="assets/img/pensmed-navbar.png" alt="Logo">PENSMed
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <!-- <a href="#">
+            <button id="register-donor-btn" class="btn navbar-btn navbar-right" style="margin-right: 5px; background-color:yellow; color:#0B668B;">DAFTAR</button>
+          </a>
+          <a href="#">
+            <button id="login-btn" class="btn navbar-btn navbar-right" href="#" style="margin-right: 5px; color:#0B668B;">MASUK</button>
+          </a> -->
+          <form class="navbar-form navbar-right" role="search">
+            <div class="form-group has-feedback">
+                <input id="searchbox" type="text" placeholder="Search" class="form-control">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
+          </form>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+      <!--/.container-fluid -->
+    </nav>
+  </div>
+  
+  <div id="container">
+    <div id="sidebar">
+      <div class="sidebar-wrapper">
+        <div class="panel panel-default" id="features">
+          <div class="panel-heading">
+            <h3 class="panel-title">Persediaan APD Rumah Sakit
+            <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i class="fa fa-chevron-left"></i></button></h3>
+          </div>
+          
+          <div class="panel-body"> 
+            <div class="row">
+              <div class="col-xs-8 col-md-8">
+                <input type="text" class="form-control search" placeholder="Filter" />
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-table">
+            <table class="table table-hover" id="feature-list">
+              <thead class="hidden">
+                <tr>
+                  <th>Icon</th>
+                <tr>
+                <tr>
+                  <th>Name</th>
+                <tr>
+                <tr>
+                  <th>Chevron</th>
+                <tr>
+              </thead>
+              <tbody class="list"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <!-- <div id="loading">
+    <div class="loading-indicator">
+      <div class="progress progress-striped active">
+        <div class="progress-bar progress-bar-info progress-bar-full"></div>
+      </div>
+    </div>
+  </div> -->
+ 
+
+  <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">
+            Developed by <a href='http://pensmed.com'>pensmed.com</a>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div id="attribution"></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+  <script src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
+  <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+</body>
+</html>

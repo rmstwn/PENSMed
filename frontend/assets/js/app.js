@@ -171,13 +171,10 @@ var markerClusters = new L.MarkerClusterGroup({
   disableClusteringAtZoom: 16
 });
 
-let dropdown = $('#selectHospital');
 
-dropdown.empty();
-
-dropdown.append('<option selected="true" disabled>Pilih Rumah Sakit:</option>');
-dropdown.prop('selectedIndex', 0);
-
+$('#selectHospital').empty();
+$('#selectHospital').append('<option selected="true" disabled>Pilih Rumah Sakit:</option>');
+$('#selectHospital').prop('selectedIndex', 0);
 
 /* Empty layer placeholder to add to layer control for listening when to add/remove hospitals to markerClusters layer */
 var hospitalLayer = L.geoJson(null);
@@ -195,13 +192,58 @@ var hospitals = L.geoJson(null, {
     });
   },
   onEachFeature: function (feature, layer) {
-    dropdown.append($('<option></option>').attr('value', feature.id).text(layer.feature.properties.NAME));
+    $('#selectHospital').append($('<option></option>').attr('value', feature.id).text(layer.feature.properties.NAME));
     if (feature.properties) {
-      var content = "<table class='table table-striped table-bordered table-condensed'>" + "<tr><th>Name</th><td>" + feature.properties.NAME + "</td></tr>" + "<tr><th>Phone</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Address</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      var content = "<table class='table table-striped table-bordered table-condensed'>" + "</td></tr>" + "<tr><th>No. Telp.</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Alamat</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
+      
+      var pasien_positif = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + feature.properties.pasien_positif  + "</div>"
+      var pasien_pdp = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + feature.properties.pasien_pdp + "</div>"
+      
+      var total = feature.properties.pasien_positif + feature.properties.pasien_pdp
+      var pasien_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total + "</div>"
+      
+      var bed_rawatinap_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" +  feature.properties.bed_rawatinap_tersedia + "</div>"
+      var bed_rawatinap_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" +  feature.properties.bed_rawatinap_terpakai + "</div>"
+      
+      var bed_icu_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" +  feature.properties.bed_icu_tersedia + "</div>"
+      var bed_icu_terpakai = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" +  feature.properties.bed_icu_terpakai + "</div>"
+
+      var total_rawatinap = feature.properties.bed_rawatinap_tersedia + feature.properties.bed_rawatinap_terpakai
+      var total_icu = feature.properties.bed_icu_tersedia + feature.properties.bed_icu_terpakai
+      var bed_total_rawatinap = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  total_rawatinap + "</div>"
+      var bed_total_icu = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" +  total_icu+ "</div>"
+
+      var staff_dokter_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_dokter_ada + "</div>"
+      var staff_dokter_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_dokter_pergantianshift + "</div>"
+      
+      var staff_perawat_ada = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_perawat_ada + "</div>"
+      var staff_perawat_pergantianshift = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  feature.properties.staff_perawat_pergantianshift + "</div>"
+
+      var total_dokter = feature.properties.staff_dokter_ada + feature.properties.staff_dokter_pergantianshift
+      var total_perawat = feature.properties.staff_perawat_ada + feature.properties.staff_perawat_pergantianshift
+      var staff_total_dokter = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  total_dokter + "</div>"
+      var staff_total_perawat = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" +  total_perawat + "</div>"
+
       layer.on({
         click: function (e) {
           $("#feature-title").html(feature.properties.NAME);
           $("#feature-info").html(content);
+          $("#feature-info-pasien-positif").html(pasien_positif);
+          $("#feature-info-pasien-pdp").html(pasien_pdp);
+          $("#feature-info-pasien-total").html(pasien_total);
+          $("#feature-info-bed-rawatinap-tersedia").html(bed_rawatinap_tersedia);
+          $("#feature-info-bed-rawatinap-terpakai").html(bed_rawatinap_terpakai);
+          $("#feature-info-bed-icu-tersedia").html(bed_icu_tersedia);
+          $("#feature-info-bed-icu-terpakai").html(bed_icu_terpakai);
+          $("#feature-info-bed-total-rawatinap").html(bed_total_rawatinap);
+          $("#feature-info-bed-total-icu").html(bed_total_icu);
+          $("#feature-info-staff-dokter-ada").html(staff_dokter_ada);
+          $("#feature-info-staff-dokter-pergantianshift").html(staff_dokter_pergantianshift);
+          $("#feature-info-staff-perawat-ada").html(staff_perawat_ada);
+          $("#feature-info-staff-perawat-pergantianshift").html(staff_perawat_pergantianshift);
+          $("#feature-info-staff-total-dokter").html(staff_total_dokter);
+          $("#feature-info-staff-total-perawat").html(staff_total_perawat);
+          
           $("#featureModal").modal("show");
           highlight.clearLayers().addLayer(L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]], highlightStyle));
         }
@@ -419,7 +461,7 @@ $(document).one("ajaxStop", function () {
 
   /* instantiate the typeahead UI */
   $("#searchbox").typeahead({
-    minLength: 3,
+    minLength: 1,
     highlight: true,
     hint: false
   }, {
@@ -508,3 +550,12 @@ function showPasswordRegister() {
   }
 }
 
+$('input.typeahead').typeahead({
+  source:  function (query, process) {
+    return $.get('/ajaxpro.php', { query: query }, function (data) {
+        console.log(data);
+        data = $.parseJSON(data);
+          return process(data);
+      });
+  }
+});

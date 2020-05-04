@@ -71,6 +71,7 @@ input[type="radio"], input[type="checkbox"] {
   bottom: 0px;
   overflow: auto;
 }
+
 .leaflet-control-layers {
   overflow: auto;
 }
@@ -174,4 +175,38 @@ input[type="radio"], input[type="checkbox"] {
   .leaflet-control-container {
     display: none !important;
   }
+}
+
+.left-col{
+  text-align: right;
+}
+
+.square-service-block{
+  height:150px;
+  position:relative;
+  overflow:hidden;
+  margin:15px auto;
+  background-color: #0B668B;
+  border-radius: 5px;
+  display: block;
+  text-align: left;
+  width: 100%;
+  padding: 10px 13px;
+}
+
+.ssb-icon {
+color: #fff;
+display: inline-block;
+font-size: 28px;
+margin: 0 0 20px;
+}
+
+h2.ssb-title {
+color: #fff;
+font-size: 20px;
+font-weight: 200;
+margin:0;
+padding-right: 10px;
+padding-bottom:10px;
+text-transform: uppercase;
 }
