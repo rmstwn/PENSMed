@@ -6,10 +6,6 @@ const {model} = require('mongoose'),
       hospital = model("hospital"),
       donor = model("donor")
       
-exports.edit_page = (req,res) => {
-    res.sendFile(path.resolve(__dirname, '../public/views/edit.html'))
-}
-
 exports.list = async (req,res) => {
 	const {list} = req.query
 

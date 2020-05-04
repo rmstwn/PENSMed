@@ -7,34 +7,7 @@ const {request_check,
       donor_schema = require('../model/donor'),
       hospital = model("hospital"),
       donor = model("donor"),
-      path = require('path'),
       bcrypt = require('bcrypt')
-
-exports.login_page = async (req,res) => {
-    let {logged_in} = req.cookies,
-        {session} = req.signedCookies
-
-    if (logged_in == undefined || logged_in != 'yes' || session == undefined || !session)
-        res.cookie('logged_in','no',{maxAge:360000})
-    else if (session != undefined || session) {
-        try {
-            let hash = hashing(session,10),
-                data = await donor.findOne({session: hash})
-                if(data == null)
-                    data = await hospital.findOne({session: hash})
-
-            if(data != null) {
-                res.redirect('/')
-                return
-            }
-        } catch(err){
-            console.error(err.toString())
-            res.sendStatus(500)
-            return
-        }
-    }
-    res.sendFile(path.resolve(__dirname, '../public/views/login.html'))
-}
 
 exports.authentication = async (req,res) => {
     const {email, password} = req.body

@@ -10,13 +10,7 @@ const {
       hospital_schema = require('../model/hospital'),
       donor = model("donor"),
       hospital = model("hospital"),
-      path = require('path'),
       bcrypt = require('bcrypt')
-
-// Send register.html
-exports.register_page = (req,res) => {
-    res.sendFile(path.resolve(__dirname, '../public/views/register.html'))
-}
 
 // Send confirmation link via email
 exports.email_confirm = async (req,res) => {
