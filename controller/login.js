@@ -69,7 +69,7 @@ exports.authentication = async (req,res) => {
             hash = hashing(token,10)
         
         if (hospital_account != null) {
-            await hospital.updateOne({"features.properties.email": email},{$set: {"features.1.properties.session": hash}})
+            await hospital.updateOne({"features.properties.email": email},{$set: {"features.$.properties.session": hash}})
         } else {
             await donor.updateOne({email: email},{$set: {session: hash}})
         }
