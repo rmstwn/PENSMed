@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+</head>
+<body>
+    <form method="post">
+        <center><h3>Update Hospital Data</h3></center>
+            <input type="text" id="hospital" name="hospital" style="display:block;margin: 0 auto" placeholder="hospital">
+            <input type="text" id="contact" name="contact" style="display:block;margin: 0 auto" placeholder="contact">
+            <input type="text" id="address" name="address" style="display:block;margin: 0 auto" placeholder="address">
+            <input type="text" id="coord1" name="coord1" style="display:block;margin: 0 auto" placeholder="coord1">
+            <input type="text" id="coord2" name="coord2" style="display:block;margin: 0 auto" placeholder="coord2">
+            <input type="text" id="city" name="city" style="display:block;margin: 0 auto" placeholder="city">
+            <input type="text" id="kode" name="kode" style="display:block;margin: 0 auto" placeholder="kode">
+            <input type="text" id="url" name="url" style="display:block;margin: 0 auto" placeholder="url">
+            <input type="text" id="zip" name="zip" style="display:block;margin: 0 auto" placeholder="zip">
+            <br>
+            <center><button id="submit-btn">Update</button></center>
+    </form>
+    <script>
+        document.getElementById("submit-btn").addEventListener("click", function(event){
+            event.preventDefault()
+            fetch('http://localhost:3000/api/v1/update/data/user?category=hospital', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    hospital_name: document.getElementById('hospital').value,
+                    contact: document.getElementById('contact').value,
+                    address: document.getElementById('address').value,
+                    coord1: document.getElementById('coord1').value,
+                    coord2: document.getElementById('coord2').value,
+                    city: document.getElementById('city').value,
+                    kode: document.getElementById('kode').value,
+                    url: document.getElementById('url').value,
+                    zip: document.getElementById('zip').value
+                })
+            })
+            .then(res => {
+                console.log(res.status)
+                res.text().then(d => console.log(d))
+            })
+        });
+    </script>
+</body>
+</html>
