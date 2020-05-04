@@ -1,0 +1,12 @@
+#utilities
+.cache/
+.vscode/
+**/.cache/
+**/.env
+**/.vscode/
+
+#files
+**/package-lock.json
+
+#folders
+**/node_modules/
