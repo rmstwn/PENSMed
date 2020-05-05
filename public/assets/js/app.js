@@ -953,8 +953,17 @@ function editvalue() {
     document.getElementById("editvalue22").readOnly = true;
     document.getElementById("editvalue22").style.border = "none";
 
-    document.getElementById("editvalue23").readOnly = true;
-    document.getElementById("editvalue23").style.border = "none";
+    document.getElementById("editvalue23s").readOnly = false;
+    document.getElementById("editvalue23s").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23m").readOnly = false;
+    document.getElementById("editvalue23m").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23l").readOnly = false;
+    document.getElementById("editvalue23l").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23xl").readOnly = false;
+    document.getElementById("editvalue23xl").style.border = "1px solid yellow";
 
     document.getElementById("editvalue24").readOnly = true;
     document.getElementById("editvalue24").style.border = "none";
@@ -996,6 +1005,56 @@ function editvalue() {
     document.getElementById("editvalue36").style.border = "none";
 
     document.getElementById("Edit-btn").innerText = "Edit Nilai"
+
+    let rs = $("#feature-title").text()
+    console.log(rs)
+    $.ajax({
+      url: `https://pensmed.com:3000/api/v1/update/data/hospital?rs=${rs}`,
+      type: 'PUT',
+      data: {
+        pasien_positif: $("#editvalue1").val(),
+        pasien_pdp: $("#editvalue2").val(),
+        rawat_inap_tersedia: $("#editvalue3").val(),
+        rawat_inap_terpakai: $("#editvalue4").val(),
+        icu_tersedia: $("#editvalue5").val(),
+        icu_terpakai: $("#editvalue6").val(),
+        dokter_ada: $("#editvalue7").val(),
+        dokter_shift: $("#editvalue8").val(),
+        perawat_ada: $("#editvalue9").val(),
+        perawat_shift: $("#editvalue10").val(),
+        sarung_tangan_periksa_s: $("#editvalue11").val(),
+        sarung_tangan_periksa_m: $("#editvalue12").val(),
+        sarung_tangan_periksa_l: $("#editvalue13").val(),
+        sarung_tangan_periksa_xl: $("#editvalue14").val(),
+        sarung_tangan_bedah_s: $("#editvalue15").val(),
+        sarung_tangan_bedah_m: $("#editvalue16").val(),
+        sarung_tangan_bedah_l: $("#editvalue17").val(),
+        sarung_tangan_bedah_xl: $("#editvalue18").val(),
+        pelindung_wajah_s: $("#editvalue23s").val(),
+        pelindung_wajah_m: $("#editvalue23m").val(),
+        pelindung_wajah_l: $("#editvalue23l").val(),
+        pelindung_wajah_xl: $("#editvalue23xl").val(),
+        gaun_medis_s: $("#editvalue24").val(),
+        gaun_medis_m: $("#editvalue25").val(),
+        gaun_medis_l: $("#editvalue26").val(),
+        gaun_medis_xl: $("#editvalue27").val(),
+        coverall_medis_m: $("#editvalue29").val(),
+        coverall_medis_l: $("#editvalue30").val(),
+        coverall_medis_xl: $("#editvalue31").val(),
+        coverall_medis_xxl: $("#editvalue28").val(),
+        masker_bedah: $("#editvalue19").val(),
+        respirator_n95: $("#editvalue20").val(),
+        penutup_kepala: $("#editvalue21").val(),
+        pelindung_mata: $("#editvalue22").val(),
+        heavy_duty_apron: $("#editvalue32").val(),
+        sepatu_boot_anti_air: $("#editvalue33").val(),
+        penutup_sepatu: $("#editvalue34").val(),
+        ventilator_terpakai: $("#editvalue35").val(),
+        ventilator_tersedia: $("#editvalue36").val(),
+      }
+    })
+    .done(data => console.log(data))
+    .fail(err => console.log(err))
   }
 
 }
