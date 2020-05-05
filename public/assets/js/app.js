@@ -733,7 +733,7 @@ function showPasswordLogin() {
   }
 }
 
-function showPasswordRegister() {
+function showPasswordRegisterDonor() {
   var x = document.getElementById("passwordRegisterDonor1");
   if (x.type === "password") {
     x.type = "text";
@@ -741,6 +741,21 @@ function showPasswordRegister() {
     x.type = "password";
   }
   var x = document.getElementById("passwordRegisterDonor2");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
+function showPasswordRegisterHospital() {
+  var x = document.getElementById("passwordRegisterHospital1");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+  var x = document.getElementById("passwordRegisterHospital2");
   if (x.type === "password") {
     x.type = "text";
   } else {
