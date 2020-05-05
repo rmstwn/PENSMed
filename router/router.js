@@ -20,6 +20,9 @@ module.exports = app => {
        .get(page.login_page)
        .post(login.authentication)
 
+    app.route('/logout')
+       .get(login.logout)
+
     app.route('/edit')
        .get(page.edit_page)   
 
