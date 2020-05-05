@@ -79,7 +79,7 @@ exports.edit_page = async (req,res) => {
                 data = await hospital.findOne({session: hash})
 
             if(data == null) {
-                res.redirect('/logout')
+                res.redirect('/')
                 return
             }
         } catch(err){
