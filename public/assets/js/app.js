@@ -56,6 +56,38 @@ $("#register-hospital-btn").click(function () {
   return false;
 });
 
+$("#registerHospital").click(function() {
+  $.post('https://pensmed.com:3000/register?category=hospital', {
+    hospital: $("#selectHospital"),
+    email: $("#emailRegister").val(),
+    password: $("#passwordRegisterHospital1").val(),
+    confirm_password: $("#passwordRegisterHospital2").val(),
+    kode: $("#IDHospital").val()
+  })
+  .done(data => {
+    alert("Registrasi berhasil!")
+    $("#registerHospitalModal").modal("toggle")
+    $("#loginModal").modal("show");
+  })
+  .fail(err => alert(err.responseText))
+})
+
+$("#registerDonor").click(function() {
+  $.post('https://pensmed.com:3000/register?category=donor', {
+    name: $("#nameDonor").val(),
+    email: $("#emailDonor").val(),
+    password: $("#passwordRegisterDonor1").val(),
+    confirm_password: $("#passwordRegisterDonor2").val(),
+    perusahaan: $("#nameCompany").val()
+  })
+  .done(data => {
+    alert("Registrasi berhasil!")
+    $("#registerDonorModal").modal("toggle")
+    $("#loginModal").modal("show");
+  })
+  .fail(err => alert(err.responseText))
+})
+
 $("#list-btn").click(function () {
   animateSidebar();
   return false;
@@ -85,9 +117,7 @@ $("#authenticate").click(function () {
       email: $('#emailLogin').val(),
       password: $('#passwordLogin').val()
   })
-  .done(data => {
-      location.reload()
-  })
+  .done(data => location.reload())
   .fail (err => alert(err.responseText))
 });
 
