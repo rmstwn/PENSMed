@@ -968,16 +968,16 @@ function editvalue() {
     document.getElementById("editvalue22").readOnly = true;
     document.getElementById("editvalue22").style.border = "none";
 
-    document.getElementById("editvalue23s").readOnly = false;
+    document.getElementById("editvalue23s").readOnly = true;
     document.getElementById("editvalue23s").style.border = "1px solid yellow";
 
-    document.getElementById("editvalue23m").readOnly = false;
+    document.getElementById("editvalue23m").readOnly = true;
     document.getElementById("editvalue23m").style.border = "1px solid yellow";
 
-    document.getElementById("editvalue23l").readOnly = false;
+    document.getElementById("editvalue23l").readOnly = true;
     document.getElementById("editvalue23l").style.border = "1px solid yellow";
 
-    document.getElementById("editvalue23xl").readOnly = false;
+    document.getElementById("editvalue23xl").readOnly = true;
     document.getElementById("editvalue23xl").style.border = "1px solid yellow";
 
     document.getElementById("editvalue24").readOnly = true;
@@ -1068,8 +1068,16 @@ function editvalue() {
         ventilator_tersedia: $("#editvalue36").val(),
       }
     })
-    .done(data => console.log(data))
+    .done(data => alert('Data berhasil diperbarui'))
     .fail(err => console.log(err))
+
+    
+    $.get(`https://pensmed.com:3000/api/v1/data/hospital/${rs}`)
+    .done(data => {
+      let last_update = "<h5 style='text-align: right;'>Last Update : <span style='color: red;'>" + data.data[0].update_time + "</span></h5>"
+      $("#feature-last_update").html(last_update)
+    })
+    .fail(err => alert('Failed to fetch data'))
   }
 
 }
