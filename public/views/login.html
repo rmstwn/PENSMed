@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Page</title>
+</head>
+<body>
+    <form method="post">
+        <center><h3>Login</h3></center>
+            <input type="email" id="email" name="email" style="display:block;margin: 0 auto" placeholder="email">
+            <input type="password" id="password" name="password" style="display:block;margin: 0 auto" placeholder="password">
+            <br>
+            <center><button id="submit-btn">Login</button></center>
+    </form>
+    <script>
+        document.getElementById("submit-btn").addEventListener("click", function(event){
+            event.preventDefault()
+            fetch('http://localhost:3000/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    email: document.getElementById('email').value,
+                    password: document.getElementById('password').value,
+                })
+            })
+            .then(res => {
+                console.log(res.status)
+                res.text().then(d => console.log(d))
+            })
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#000000">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>PENSMed</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css">
+  <link rel="stylesheet"
+    href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.css">
+  <link rel="stylesheet"
+    href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/MarkerCluster.Default.css">
+  <link rel="stylesheet"
+    href="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.css">
+  <link rel="stylesheet" href="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="assets/img/pensmed-navbar.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="assets/img/pensmed-navbar.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="assets/img/pensmed-navbar.png">
+  <link rel="icon" sizes="196x196" href="assets/img/pensmed-navbar.png">
+  <link rel="icon" type="image/x-icon" href="assets/img/pensmed-ico.png">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
+  <style>
+    /* Modify the background color */
+
+    .navbar-custom {
+      background-color: #0B668B;
+    }
+
+    /* Modify brand and text color */
+
+    .navbar-custom .navbar-brand,
+    .navbar-custom .navbar-text {
+      color: white;
+    }
+
+    .navbar-brand {
+      padding: 0px;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand>img {
+      height: 100%;
+      width: auto;
+      padding: 7px 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <div class="navbar-icon-container">
+            <a href="#" class="navbar-icon pull-right visible-xs" id="nav-btn"><i
+                class="fa fa-bars fa-lg white"></i></a>
+          </div>
+          <a class="navbar-brand" href="#" data-toggle="collapse" data-target=".navbar-collapse.in" id="list-btn"><img
+              style=" width: 64px;" src="assets/img/pensmed-navbar.png" alt="Logo">PENSMed
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <form class="navbar-form navbar-right" role="img" style="margin: 0px; padding:0px; padding-top: 10px;">
+            <div class="form-group has-feedback">
+              <a href="#"><span class="glyphicon glyphicon-log-out pull-right" style="color: black; font-size: 27px; margin: 0px;"></span></a>
+            </div>
+          </form>
+          <form class="navbar-form navbar-right" role="search" style="padding:0px; padding-right:5px;">
+            <div class="form-group has-feedback">
+                <input id="searchbox" type="text" placeholder="Search" class="form-control">
+                <span id="searchicon" class="fa fa-search form-control-feedback"></span>
+            </div>
+          </form>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+      <!--/.container-fluid -->
+    </nav>
+  </div>
+
+  <div id="container">
+    <div id="sidebar">
+      <div class="sidebar-wrapper">
+        <div class="panel panel-default" id="features">
+          <div class="panel-heading">
+            <h3 class="panel-title">Persediaan APD Rumah Sakit
+              <button type="button" class="btn btn-xs btn-default pull-right" id="sidebar-hide-btn"><i
+                  class="fa fa-chevron-left"></i></button></h3>
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-xs-8 col-md-8">
+                <input type="text" class="form-control search" placeholder="Filter" />
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <button type="button" class="btn btn-primary pull-right sort" data-sort="feature-name" id="sort-btn"><i
+                    class="fa fa-sort"></i>&nbsp;&nbsp;Sort</button>
+              </div>
+            </div>
+          </div>
+          <div class="sidebar-table">
+            <table class="table table-hover" id="feature-list">
+              <thead class="hidden">
+                <tr>
+                  <th>Icon</th>
+                <tr>
+                <tr>
+                  <th>Name</th>
+                <tr>
+                <tr>
+                  <th>Chevron</th>
+                <tr>
+              </thead>
+              <tbody class="list"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+  <div id="loading">
+    <div class="loading-indicator">
+      <div class="progress progress-striped active">
+        <div class="progress-bar progress-bar-info progress-bar-full"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="attributionModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">
+            Developed by <a href='https://pensmed.com'>pensmed.com</a>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div id="attribution"></div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal fade bd-example-modal-lg" id="featureModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title text-primary" id="feature-title"></h4>
+        </div>
+        <div class="container-fluid">
+          <div id="feature-last_update"></div>
+          <a href="#">
+            <button id="Donate-btn" class="btn btn-warning btn-lg" href="#"
+              style="margin-left: 15px; color:#0B668B;" >Donasi</button>
+          </a>
+          <div class="modal-body" id="feature-info"></div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-1" style="font-size: 20px; color: white; padding: 0px; ">
+                      Pasien
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Terkonfirmasi</div>
+                    <div id="feature-info-pasien-positif"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: yellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Pasien dalam pengawasan(PDP)</div>
+                    <div id="feature-info-pasien-pdp"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: white; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Total</div>
+                    <div id="feature-info-pasien-total"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="square-service-block">
+                <div class="container">
+                  <div class="row" style="width: 950px;">
+                    <div class="col-sm-1" style="font-size: 20px; color: white; padding: 0px; ">
+                      Kasur
+                    </div>
+                    <div class="col-sm-1"
+                      style="text-decoration: underline; font-size: 13px; text-align: right; color: white; padding: 0px; padding-top: 6px;">
+                      Rawat inap
+                    </div>
+                    <div class="col-sm-1"
+                      style="text-decoration: underline; font-size: 15px; text-align: right; color: white; padding: 0px; padding-top: 4px; padding-right: 5px;">
+                      ICU
+                    </div>
+                  </div>
+                  <div class="row" style="padding-top:5px; padding-bottom:5px; color: greenyellow; width: 950px;">
+                    <div class="col-sm-1" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-bed-rawatinap-tersedia"></div>
+                    <div id="feature-info-bed-icu-tersedia"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px; color: yellow; width: 950px;">
+                    <div class="col-sm-1" style="padding: 0px;">Terpakai</div>
+                    <div id="feature-info-bed-rawatinap-terpakai"></div>
+                    <div id="feature-info-bed-icu-terpakai"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px; color: white; width: 950px;">
+                    <div class="col-sm-1" style="padding: 0px; ">Total</div>
+                    <div id="feature-info-bed-total-rawatinap"></div>
+                    <div id="feature-info-bed-total-icu"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block">
+                <div class="container">
+                  <div class="row" style="width: 950px;">
+                    <div class="col-sm-1" style="font-size: 20px; color: white; padding: 0px; ">
+                      Staff
+                    </div>
+                    <div class="col-sm-1"
+                      style="text-decoration: underline; font-size: 15px; text-align: right; color: white; padding: 0px; padding-top: 4px; padding-right: 0px;">
+                      Dokter
+                    </div>
+                    <div class="col-sm-1"
+                      style="text-decoration: underline; font-size: 15px; text-align: right; color: white; padding: 0px; padding-top: 4px; padding-right: 0px;">
+                      Perawat
+                    </div>
+                  </div>
+                  <div class="row" style="padding-top:5px; padding-bottom:5px; color: greenyellow; width: 950px;">
+                    <div class="col-sm-1" style="padding: 0px;">Ada</div>
+                    <div id="feature-info-staff-dokter-ada"></div>
+                    <div id="feature-info-staff-perawat-ada"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px; color: yellow; width: 950px;">
+                    <div class="col-sm-1" style="padding: 0px;">Pergantian Shift</div>
+                    <div id="feature-info-staff-dokter-pergantianshift"></div>
+                    <div id="feature-info-staff-perawat-pergantianshift"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px; color: white; width: 950px;">
+                    <div class="col-sm-1" style="padding: 0px; ">Total</div>
+                    <div id="feature-info-staff-total-dokter"></div>
+                    <div id="feature-info-staff-total-perawat"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 style="text-align: center;">Alat Pelindung Diri (APD)</h2>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Sarung Tangan Pemeriksaan
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Small</div>
+                    <div id="feature-info-sarungtangan-periksa-s"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Medium</div>
+                    <div id="feature-info-sarungtangan-periksa-m"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Large</div>
+                    <div id="feature-info-sarungtangan-periksa-l"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">X-Large</div>
+                    <div id="feature-info-sarungtangan-periksa-xl"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: white; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Total</div>
+                    <div id="feature-info-sarungtangan-periksa-total"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Sarung Tangan Bedah
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Small</div>
+                    <div id="feature-info-sarungtangan-bedah-s"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Medium</div>
+                    <div id="feature-info-sarungtangan-bedah-m"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Large</div>
+                    <div id="feature-info-sarungtangan-bedah-l"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">X-Large</div>
+                    <div id="feature-info-sarungtangan-bedah-xl"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: white; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Total</div>
+                    <div id="feature-info-sarungtangan-bedah-total"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Masker Bedah
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-maskerbedah-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Respirator N95
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-respiratorn95-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Penutup Kepala
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-penutupkepala-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Pelindung Mata
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-pelindungmata-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Pelindung Wajah
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-pelindungwajah-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Gaun Medis
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Small</div>
+                    <div id="feature-info-gaunmedis-s"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Medium</div>
+                    <div id="feature-info-gaunmedis-m"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Large</div>
+                    <div id="feature-info-gaunmedis-l"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">X-Large</div>
+                    <div id="feature-info-gaunmedis-xl"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: white; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Total</div>
+                    <div id="feature-info-gaunmedis-total"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Coverall Medis 
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Small</div>
+                    <div id="feature-info-coverallmedis-s"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Medium</div>
+                    <div id="feature-info-coverallmedis-m"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Large</div>
+                    <div id="feature-info-coverallmedis-l"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">X-Large</div>
+                    <div id="feature-info-coverallmedis-xl"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: white; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Total</div>
+                    <div id="feature-info-coverallmedis-total"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Heavy Duty Apron
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-heavydutyapron-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Sepatu Boot Anti Air
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-sepatuboot-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Penutup Sepatu (Shoe Cover)
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-penutupsepatu-tersedia"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="square-service-block2">
+                <div class="container">
+                  <div class="row" style="padding-bottom:5px;color: greenyellow;">
+                    <div class="col-sm-5" style="font-size: 18px; color: white; padding: 0px; ">
+                      Ventilators
+                    </div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: greenyellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Tersedia</div>
+                    <div id="feature-info-ventilators-tersedia"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: yellow; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Terpakai</div>
+                    <div id="feature-info-ventilators-terpakai"></div>
+                  </div>
+                  <div class="row" style="padding-bottom:5px;color: white; width: 950px;">
+                    <div class="col-sm-2" style="padding: 0px;">Total</div>
+                    <div id="feature-info-ventilators-total"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.1.1/list.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+  <script
+    src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-markercluster/v0.4.0/leaflet.markercluster.js"></script>
+  <script
+    src="https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-locatecontrol/v0.43.0/L.Control.Locate.min.js"></script>
+  <script src="assets/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.js"></script>
+  <script src="assets/js/app.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+
+</body>
+
+</html>
