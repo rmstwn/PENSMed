@@ -23,8 +23,8 @@ module.exports = app => {
     app.route('/logout')
        .get(login.logout)
 
-    app.route('/edit')
-       .get(page.edit_page)   
+    app.route('/hospital')
+       .get(page.edit_page)
 
     app.route('/confirm/:token')
        .get(register.email_confirm)
