@@ -15,6 +15,13 @@ if (!("ontouchstart" in window)) {
   });
 }
 
+if($.cookie('logged_in') == 'yes') {
+  $("#login-btn").html("KELUAR")
+  $("#login-btn").css({"background-color":"#d32f2f", "color":"white"})
+  $("#login-btn").attr("id","logout-btn")
+  $("#register-donor-btn").hide()
+}
+
 $(document).on("mouseout", ".feature-row", clearHighlight);
 
 $("#full-extent-btn").click(function () {
@@ -67,6 +74,21 @@ $("#sidebar-toggle-btn").click(function () {
 $("#sidebar-hide-btn").click(function () {
   animateSidebar();
   return false;
+});
+
+$("#logout-btn").click(function() {
+  window.location.replace("https://pensmed.com:3000/logout")
+})
+
+$("#authenticate").click(function () {
+  $.post('https://pensmed.com:3000/login', {
+      email: $('#emailLogin').val(),
+      password: $('#passwordLogin').val()
+  })
+  .done(data => {
+      location.reload()
+  })
+  .fail (err => alert(err.responseText))
 });
 
 function animateSidebar() {
@@ -195,7 +217,7 @@ var hospitals = L.geoJson(null, {
     $('#selectHospital').append($('<option></option>').attr('value', feature.id).text(layer.feature.properties.NAME));
     if (feature.properties) {
       var content = "<table class='table table-striped table-bordered table-condensed'>" + "</td></tr>" + "<tr><th>No. Telp.</th><td>" + feature.properties.TEL + "</td></tr>" + "<tr><th>Alamat</th><td>" + feature.properties.ADDRESS1 + "</td></tr>" + "<tr><th>Website</th><td><a class='url-break' href='" + feature.properties.URL + "' target='_blank'>" + feature.properties.URL + "</a></td></tr>" + "<table>";
-      $.getJSON(`http://localhost:3000/api/v1/data/hospital/${layer.feature.properties.NAME}`, function (data) {
+      $.getJSON(`https://pensmed.com:3000/api/v1/data/hospital/${layer.feature.properties.NAME}`, function (data) {
 
         var last_update = "<h5 style='text-align: right;'>Last Update : <span style='color: red;'>" + data.data[0].update_time + "</span></h5>"
   
@@ -237,7 +259,7 @@ var hospitals = L.geoJson(null, {
         var sarungtangan_periksa_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue14' value='" + data.data[0].apd.sarung_tangan_periksa.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
   
         var total_sarungtangan_periksa = data.data[0].apd.sarung_tangan_periksa.s + data.data[0].apd.sarung_tangan_periksa.m + data.data[0].apd.sarung_tangan_periksa.l + data.data[0].apd.sarung_tangan_periksa.xl
-        var sarungtangan_periksa_total = "<div class='col-sm-1' style='text.align: right; color: white; padding: 0px;'>" + total_sarungtangan_periksa + "</div>"
+        var sarungtangan_periksa_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_periksa + "</div>"
 
         //Sarung Tangan Bedah
         var sarungtangan_bedah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue15' value='" + data.data[0].apd.sarung_tangan_bedah.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
@@ -246,7 +268,7 @@ var hospitals = L.geoJson(null, {
         var sarungtangan_bedah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue18' value='" + data.data[0].apd.sarung_tangan_bedah.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
   
         var total_sarungtangan_bedah = data.data[0].apd.sarung_tangan_bedah.s + data.data[0].apd.sarung_tangan_bedah.m + data.data[0].apd.sarung_tangan_bedah.l + data.data[0].apd.sarung_tangan_bedah.xl
-        var sarungtangan_bedah_total = "<div class='col-sm-1' style='te.t-align: right; color: white; padding: 0px;'>" + total_sarungtangan_bedah + "</div>"
+        var sarungtangan_bedah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_bedah + "</div>"
 
         //Masker Bedah
         var maskerbedah_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue19' value='" + data.data[0].apd.masker_bedah + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
@@ -274,7 +296,7 @@ var hospitals = L.geoJson(null, {
         var gaunmedis_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue27' value='" + data.data[0].apd.gaun_medis.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
   
         var total_gaunmedis = data.data[0].apd.gaun_medis.s + data.data[0].apd.gaun_medis.m + data.data[0].apd.gaun_medis.l + data.data[0].apd.gaun_medis.xl
-        var gaunmedis_total = "<div class='col-sm-1'.style='text-align: right; color: white; padding: 0px;'>" + total_gaunmedis + "</div>"
+        var gaunmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_gaunmedis + "</div>"
 
         //Coverall Medis
         var coverallmedis_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue29' value='" + data.data[0].apd.coverall_medis.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
@@ -283,7 +305,7 @@ var hospitals = L.geoJson(null, {
         var coverallmedis_xxl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue28' value='" + data.data[0].apd.coverall_medis.xxl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
   
         var total_coverallmedis = data.data[0].apd.coverall_medis.xxl + data.data[0].apd.coverall_medis.m + data.data[0].apd.coverall_medis.l + data.data[0].apd.coverall_medis.xl
-        var coverallmedis_total = "<div class='col-sm-1' sty.e='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
+        var coverallmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
 
         //Heavy Duty Apron
         var heavydutyapron_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue32' value='" + data.data[0].apd.heavy_duty_apron + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
@@ -406,7 +428,7 @@ var hospitals = L.geoJson(null, {
     }
   }
 });
-$.getJSON("http://localhost:3000/api/v1/map/hospital", function (data) {
+$.getJSON("https://pensmed.com:3000/api/v1/map/hospital", function (data) {
   hospitals.addData(data);
   map.addLayer(hospitalLayer);
 });

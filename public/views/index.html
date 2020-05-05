@@ -75,14 +75,10 @@
           </a>
         </div>
         <div class="navbar-collapse collapse">
-          <a href="#">
-            <button id="register-donor-btn" class="btn navbar-btn navbar-right"
-              style="margin-right: 5px; background-color: #FFD200; color:#0B668B;">DAFTAR</button>
-          </a>
-          <a href="#">
-            <button id="login-btn" class="btn navbar-btn navbar-right" href="#"
-              style="margin-right: 5px; color:#0B668B;">MASUK</button>
-          </a>
+          <button id="register-donor-btn" class="btn navbar-btn navbar-right"
+            style="margin-right: 5px; background-color: #FFD200; color:#0B668B;">DAFTAR</button>
+          <button id="login-btn" class="btn navbar-btn navbar-right" href="#"
+            style="margin-right: 5px; color:#0B668B;">MASUK</button>
         </div>
         <!--/.nav-collapse -->
       </div>
@@ -150,7 +146,7 @@
             <fieldset>
               <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
+                <input type="text" class="form-control" id="emailLogin">
               </div>
               <div class="form-group">
                 <label for="passwordLogin">Password:</label>
@@ -162,7 +158,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Login</button>
+          <button type="button" id="authenticate" class="btn btn-primary">Login</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -680,6 +676,7 @@
   </div><!-- /.modal -->
 
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha256-1A78rJEdiWTzco6qdn3igTBv9VupN3Q1ozZNTR4WE/Y=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.10.5/typeahead.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
