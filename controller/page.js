@@ -69,17 +69,18 @@ exports.edit_page = async (req,res) => {
     let {logged_in} = req.cookies,
         {session} = req.signedCookies
             
-    if (logged_in == undefined || logged_in != 'yes' || session == undefined || !session)
-        res.cookie('logged_in','no',{maxAge:360000})
+    if (logged_in == undefined || logged_in != 'yes' || session == undefined || !session) {
+        res.redirect('/')
+        return
+    }
     else if (session != undefined || session) {
         try {
             let hash = hashing(session,10),
-                data = await donor.findOne({session: hash})
-                if(data == null)
-                    data = await hospital.findOne({session: hash})
+                data = await hospital.findOne({session: hash})
 
             if(data == null) {
                 res.redirect('/logout')
+                return
             }
         } catch(err){
             console.error(err.toString())
