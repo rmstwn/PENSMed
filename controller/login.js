@@ -60,5 +60,11 @@ exports.authentication = async (req,res) => {
     }
 
     res.cookie('logged_in','yes',{maxAge:360000})
+    res.sendStatus(200)
+}
+
+exports.logout = (req,res) => {
+    res.clearCookie('session')
+    res.cookie('logged_in','no')
     res.redirect('/')
 }

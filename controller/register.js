@@ -3,6 +3,7 @@ const {
     request_check,
     check_pattern,
     random_bytes,
+    localTime,
     hashing
     } = require('../lib'),
       {model} = require('mongoose'),
@@ -134,7 +135,77 @@ and minimum 6 characters')
                     email: email,
                     password: password,
                     hospital: name,
-                    kode: kode
+                    kode: kode,
+                    data: [{
+                        update_time: localTime(),
+                        pasien: {
+                            positif: 0,
+                            pdp: 0
+                        },
+                        kasur: {
+                            rawat_inap:{
+                                tersedia: 0,
+                                terpakai: 0,
+                            },
+                            icu:{
+                                tersedia: 0,
+                                terpakai: 0,
+                            },
+                        },
+                        staf: {
+                            dokter: {
+                                ada: 0,
+                                pergantian_shift: 0,
+                            },
+                            perawat: {
+                                ada: 0,
+                                pergantian_shift: 0,
+                            },
+                        },
+                        apd: {
+                            ventilator: {
+                                tersedia: 0,
+                                terpakai: 0,
+                            },
+                            sarung_tangan_periksa: {
+                                s:0,
+                                m:0,
+                                l:0,
+                                xl:0,
+                            },
+                            sarung_tangan_bedah: {
+                                s:0,
+                                m:0,
+                                l:0,
+                                xl:0,
+                            },
+                            pelindung_wajah: {
+                                s:0,
+                                m:0,
+                                l:0,
+                                xl:0,
+                            },
+                            gaun_medis: {
+                                s:0,
+                                m:0,
+                                l:0,
+                                xl:0,
+                            },
+                            coverall_medis: {
+                                m:0,
+                                l:0,
+                                xl:0,
+                                xxl:0,
+                            },
+                            masker_bedah: 0,
+                            respirator_n95: 0,
+                            penutup_kepala: 0,
+                            pelindung_mata: 0,
+                            heavy_duty_apron: 0,
+                            sepatu_boot_anti_air: 0,
+                            penutup_sepatu: 0,
+                        }
+                    }]
             }
             await hospital_schema.create(model)
         }
