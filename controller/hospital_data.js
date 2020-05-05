@@ -56,7 +56,6 @@ exports.update_data = async (req,res) => {
     
     try {
         // Check if request is undefined
-        await request_check(rs, 'rs')
         await request_check(pasien_positif, 'pasien_positif')
         await request_check(pasien_pdp, 'pasien_pdp')
         await request_check(rawat_inap_tersedia, 'rawat_inap_tersedia')
@@ -178,7 +177,7 @@ exports.update_data = async (req,res) => {
         // Update stock
         let respond = await db.updateOne(
             {hospital: rs.toUpperCase()},
-            {$push: {data: model}},
+            {$push: {data: {$each: model, $position: 0}}},
             {runValidators: true}
             )
         if (respond.nModified < 1) {
@@ -188,7 +187,7 @@ exports.update_data = async (req,res) => {
 
     } catch(err) {
         // Internal error
-        console.error(err)
+        console.error(err.toString())
         res.sendStatus(500)
         return
     }
