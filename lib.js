@@ -8,9 +8,67 @@ exports.env_check = (env, name) => {
 
 // Get server start time
 exports.localTime = () => {
-    let time = new Date()
+    let day, month, time
 
-    return time.toString();
+    switch (new Date().getDay()) {
+        case 0:
+          day = "Minggu";
+          break;
+        case 1:
+          day = "Senin";
+          break;
+        case 2:
+           day = "Selasa";
+          break;
+        case 3:
+          day = "Rabu";
+          break;
+        case 4:
+          day = "Kamis";
+          break;
+        case 5:
+          day = "Jum'at";
+          break;
+        case 6:
+          day = "Sabtu";
+      }
+
+    switch (new Date().getMonth()) {
+        case 0:
+          month = "Januari";
+          break;
+        case 1:
+          month = "Februari";
+          break;
+        case 2:
+          month = "Maret";
+          break;
+        case 3:
+          month = "April";
+          break;
+        case 4:
+          month = "Mei";
+          break;
+        case 5:
+          month = "Juni";
+          break;
+        case 6:
+          month = "Juli";
+        case 7:
+          month = "Agustus";
+        case 8:
+          month = "September";
+        case 9:
+          month = "Oktober";
+        case 10:
+          month = "November";
+        case 11:
+          month = "Desember";
+    }
+
+    time = `${day}, ${new Date().getDate()} ${month} ${new Date().getFullYear()} pukul ${new Date().toLocaleString().slice(10)}`
+
+    return time
 };
 
 // Check if request if defined
