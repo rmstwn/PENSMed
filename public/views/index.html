@@ -176,7 +176,7 @@
             <fieldset>
               <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
+                <input type="text" class="form-control" id="emailDonor">
               </div>
               <div class="form-group">
                 <label for="passwordRegisterDonor1">Password:</label>
@@ -189,7 +189,7 @@
               </div>
               <div class="form-group">
                 <label for="name">Nama:</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="nameDonor">
               </div>
               <div class="form-group">
                 <label for="nameCompany">Nama Perusahaan (opsional):</label>
@@ -201,7 +201,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Daftar</button>
+          <button type="button" class="btn btn-primary" id="registerDonor">Daftar</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -225,15 +225,15 @@
 
               <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="text" class="form-control" id="email">
+                <input type="text" class="form-control" id="emailHospital">
               </div>
               <div class="form-group">
-                <label for="passwordRegister1">Password:</label>
-                <input type="password" class="form-control" id="passwordRegister1">
+                <label for="passwordRegisterHospital1">Password:</label>
+                <input type="password" class="form-control" id="passwordRegisterHospital1">
               </div>
               <div class="form-group">
-                <label for="passwordRegister2">Confirm Password:</label>
-                <input type="password" class="form-control" id="passwordRegister2">
+                <label for="passwordRegisterHospital2">Confirm Password:</label>
+                <input type="password" class="form-control" id="passwordRegisterHospital2">
                 <input type="checkbox" onclick="showPasswordRegister()" style="margin-top: 5px;">Show Password
               </div>
               <div class="form-group">
@@ -246,7 +246,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-primary" data-dismiss="modal">Daftar</button>
+          <button type="button" class="btn btn-primary" id="registerHospital">Daftar</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
