@@ -969,16 +969,16 @@ function editvalue() {
     document.getElementById("editvalue22").style.border = "none";
 
     document.getElementById("editvalue23s").readOnly = true;
-    document.getElementById("editvalue23s").style.border = "1px solid yellow";
+    document.getElementById("editvalue23s").style.border = "none";
 
     document.getElementById("editvalue23m").readOnly = true;
-    document.getElementById("editvalue23m").style.border = "1px solid yellow";
+    document.getElementById("editvalue23m").style.border = "none";
 
     document.getElementById("editvalue23l").readOnly = true;
-    document.getElementById("editvalue23l").style.border = "1px solid yellow";
+    document.getElementById("editvalue23l").style.border = "none";
 
     document.getElementById("editvalue23xl").readOnly = true;
-    document.getElementById("editvalue23xl").style.border = "1px solid yellow";
+    document.getElementById("editvalue23xl").style.border = "none";
 
     document.getElementById("editvalue24").readOnly = true;
     document.getElementById("editvalue24").style.border = "none";
