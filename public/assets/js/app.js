@@ -313,10 +313,10 @@ var hospitals = L.geoJson(null, {
         var pelindungmata_tersedia = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue22' value='" + data.data[0].apd.pelindung_mata + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
   
         //Pelindung Wajah
-        var pelindungwajah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-        var pelindungwajah_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-        var pelindungwajah_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
-        var pelindungwajah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23' value='" + data.data[0].apd.pelindung_wajah.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_s = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23s' value='" + data.data[0].apd.pelindung_wajah.s + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_m = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23m' value='" + data.data[0].apd.pelindung_wajah.m + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_l = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23l' value='" + data.data[0].apd.pelindung_wajah.l + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
+        var pelindungwajah_xl = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'><input type='text' id='editvalue23xl' value='" + data.data[0].apd.pelindung_wajah.xl + "' style='border:none; outline:none; width: 70px; background-color: #0B668B; text-align: right;' readonly></div>"
         var pelindungwajah_total = data.data[0].apd.pelindung_wajah.s + data.data[0].apd.pelindung_wajah.m + data.data[0].apd.pelindung_wajah.l + data.data[0].apd.pelindung_wajah.xl
         pelindungwajah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + pelindungwajah_total + "</div>"
         //Gaun Medis
@@ -832,8 +832,17 @@ function editvalue() {
     document.getElementById("editvalue22").readOnly = false;
     document.getElementById("editvalue22").style.border = "1px solid yellow";
 
-    document.getElementById("editvalue23").readOnly = false;
-    document.getElementById("editvalue23").style.border = "1px solid yellow";
+    document.getElementById("editvalue23s").readOnly = false;
+    document.getElementById("editvalue23s").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23m").readOnly = false;
+    document.getElementById("editvalue23m").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23l").readOnly = false;
+    document.getElementById("editvalue23l").style.border = "1px solid yellow";
+
+    document.getElementById("editvalue23xl").readOnly = false;
+    document.getElementById("editvalue23xl").style.border = "1px solid yellow";
 
     document.getElementById("editvalue24").readOnly = false;
     document.getElementById("editvalue24").style.border = "1px solid yellow";
