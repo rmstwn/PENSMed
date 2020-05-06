@@ -117,7 +117,7 @@ $("#authenticate").click(function () {
       email: $('#emailLogin').val(),
       password: $('#passwordLogin').val()
   })
-  .done(data => window.location.replace("https://pensmed.com:3000/hospital"))
+  .done(data => window.location.replace("https://pensmed.com:3000/"))
   .fail (err => alert(err.responseText))
 });
 
