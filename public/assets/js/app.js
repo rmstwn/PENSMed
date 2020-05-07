@@ -117,7 +117,7 @@ $("#authenticate").click(function () {
       email: $('#emailLogin').val(),
       password: $('#passwordLogin').val()
   })
-  .done(data => window.location.replace("https://pensmed.com:3000/hospital"))
+  .done(data => window.location.replace("https://pensmed.com:3000/"))
   .fail (err => alert(err.responseText))
 });
 
@@ -1076,6 +1076,41 @@ function editvalue() {
     .done(data => {
       let last_update = "<h5 style='text-align: right;'>Last Update : <span style='color: red;'>" + data.data[0].update_time + "</span></h5>"
       $("#feature-last_update").html(last_update)
+      var total = data.data[0].pasien.positif + data.data[0].pasien.pdp
+      var pasien_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total + "</div>"
+      var total_rawatinap = data.data[0].kasur.rawat_inap.tersedia + data.data[0].kasur.rawat_inap.terpakai
+      var total_icu = data.data[0].kasur.icu.tersedia + data.data[0].kasur.icu.terpakai
+      var bed_total_rawatinap = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_rawatinap + "</div>"
+      var bed_total_icu = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_icu + "</div>"
+      var total_dokter = data.data[0].staf.dokter.ada + data.data[0].staf.dokter.pergantian_shift
+      var total_perawat = data.data[0].staf.perawat.ada + data.data[0].staf.perawat.pergantian_shift
+      var staff_total_dokter = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_dokter + "</div>"
+      var staff_total_perawat = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 0px;'>" + total_perawat + "</div>"
+      var total_sarungtangan_periksa = data.data[0].apd.sarung_tangan_periksa.s + data.data[0].apd.sarung_tangan_periksa.m + data.data[0].apd.sarung_tangan_periksa.l + data.data[0].apd.sarung_tangan_periksa.xl
+      var sarungtangan_periksa_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_periksa + "</div>"
+      var total_sarungtangan_bedah = data.data[0].apd.sarung_tangan_bedah.s + data.data[0].apd.sarung_tangan_bedah.m + data.data[0].apd.sarung_tangan_bedah.l + data.data[0].apd.sarung_tangan_bedah.xl
+      var sarungtangan_bedah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_sarungtangan_bedah + "</div>"
+      var pelindungwajah_total = data.data[0].apd.pelindung_wajah.s + data.data[0].apd.pelindung_wajah.m + data.data[0].apd.pelindung_wajah.l + data.data[0].apd.pelindung_wajah.xl
+      pelindungwajah_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + pelindungwajah_total + "</div>"
+      var total_gaunmedis = data.data[0].apd.gaun_medis.s + data.data[0].apd.gaun_medis.m + data.data[0].apd.gaun_medis.l + data.data[0].apd.gaun_medis.xl
+      var gaunmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_gaunmedis + "</div>"
+      var total_coverallmedis = data.data[0].apd.coverall_medis.xxl + data.data[0].apd.coverall_medis.m + data.data[0].apd.coverall_medis.l + data.data[0].apd.coverall_medis.xl
+      var coverallmedis_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px;'>" + total_coverallmedis + "</div>"
+      var total_ventilators = data.data[0].apd.ventilator.tersedia + data.data[0].apd.ventilator.terpakai
+      var ventilators_total = "<div class='col-sm-1' style='text-align: right; color: white; padding: 0px; padding-right: 5px;'>" + total_ventilators + "</div>"
+
+      $("#feature-info-pasien-total").html(pasien_total);
+      $("#feature-info-bed-total-rawatinap").html(bed_total_rawatinap);
+      $("#feature-info-bed-total-icu").html(bed_total_icu);
+      $("#feature-info-staff-total-dokter").html(staff_total_dokter);
+      $("#feature-info-staff-total-perawat").html(staff_total_perawat);
+      $("#feature-info-sarungtangan-periksa-total").html(sarungtangan_periksa_total);
+      $("#feature-info-sarungtangan-bedah-total").html(sarungtangan_bedah_total);
+      $("#feature-info-pelindungwajah-total").html(pelindungwajah_total);
+      $("#feature-info-gaunmedis-total").html(gaunmedis_total);
+      $("#feature-info-coverallmedis-total").html(coverallmedis_total);
+      $("#feature-info-ventilators-total").html(ventilators_total);
+
     })
     .fail(err => alert('Failed to fetch data'))
   }

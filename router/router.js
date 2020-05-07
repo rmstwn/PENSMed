@@ -25,6 +25,9 @@ module.exports = app => {
 
     app.route('/hospital')
        .get(page.edit_page)
+       
+    app.route('/donor')
+       .get(page.donor_page)
 
     app.route('/confirm/:token')
        .get(register.email_confirm)
